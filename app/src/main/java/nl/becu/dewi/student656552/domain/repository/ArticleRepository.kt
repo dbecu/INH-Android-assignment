@@ -5,7 +5,7 @@ import nl.becu.dewi.student656552.domain.models.ArticleResponse
 
 interface ArticleRepository {
 
-    suspend fun getArticles(): List<Article>
+    suspend fun getArticles(): Result<List<Article>>
 
-    suspend fun getArticleById(id: Int): Article?
+    suspend fun getArticleById(id: Int): Result<Article>
 }

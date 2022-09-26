@@ -8,7 +8,7 @@ import nl.becu.dewi.student656552.domain.repository.ArticleRepository
 class ArticleRepositoryImpl(
 ) : BaseRepository(), ArticleRepository{
 
-    override suspend fun getArticles(): List<Article> {
+    override suspend fun getArticles(): Result<List<Article>> {
         //startKey: Int, loadSize: Int
         val response = api.getArticles(2)
         val articles = when {
@@ -23,10 +23,10 @@ class ArticleRepositoryImpl(
             else -> Result.failure(java.lang.IllegalStateException("Something went wrong"))
         }
 
-        return articles.getOrDefault(emptyList())
+        return articles
     }
 
-    override suspend fun getArticleById(id: Int): Article?{
+    override suspend fun getArticleById(id: Int): Result<Article> {
         val response = api.getArticleById(id)
 
         val result = when {
@@ -42,7 +42,7 @@ class ArticleRepositoryImpl(
         }
 
         //Can change so it's just result --> then it returns Result<Article>
-        return result.getOrNull()
+        return result
     }
 
 

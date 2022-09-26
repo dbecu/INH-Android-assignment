@@ -7,37 +7,20 @@ import kotlinx.coroutines.launch
 import nl.becu.dewi.student656552.data.data_source.ArticleApi
 import nl.becu.dewi.student656552.data.mapper.ArticleMapper
 import nl.becu.dewi.student656552.domain.models.Article
+import nl.becu.dewi.student656552.domain.use_case.ArticleUseCases
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
-class ArticlePager : PagingSource<Int, Article>() {
-    private val articleMapper: ArticleMapper = ArticleMapper()
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://inhollandbackend.azurewebsites.net/api/")
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
-
-    private val api: ArticleApi = retrofit.create<ArticleApi>()
+class ArticlePager(
+    private val articleUseCases: ArticleUseCases
+) : PagingSource<Int, Article>() {
 
     override val keyReuseSupported: Boolean = true
 
-    private suspend fun fetch(startKey: Int, loadSize: Int): Result<List<Article>>{
-        val response = api.getArticles(loadSize.coerceIn(1, 10))
-        return when {
-            response.isSuccessful -> {
-                val body = response.body()
-                if (body != null){
-                    articleMapper.mapArticles(body)
-                } else{
-                    Result.failure(java.lang.IllegalStateException("Body was empty"))
-                }
-            }
-            else -> Result.failure(java.lang.IllegalStateException("Something went wrong"))
-        }
+    private suspend fun fetch(startKey: Int = 1, loadSize: Int = 2): Result<List<Article>>{
+        return articleUseCases.getArticles()
     }
-
 
     init{
         GlobalScope.launch{
