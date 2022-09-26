@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import nl.becu.dewi.student656552.presentation.util.Navigation
-import nl.becu.dewi.student656552.presentation.screens.DetailScreen
+import nl.becu.dewi.student656552.presentation.detail_screen.DetailScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

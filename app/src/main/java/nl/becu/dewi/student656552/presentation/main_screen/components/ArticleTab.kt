@@ -1,4 +1,4 @@
-package nl.becu.dewi.student656552.presentation.components
+package nl.becu.dewi.student656552.presentation.main_screen.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

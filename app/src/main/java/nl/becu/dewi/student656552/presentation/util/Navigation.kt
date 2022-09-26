@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import nl.becu.dewi.student656552.presentation.screens.DetailScreen
-import nl.becu.dewi.student656552.presentation.screens.MainScreen
+import nl.becu.dewi.student656552.presentation.detail_screen.DetailScreen
+import nl.becu.dewi.student656552.presentation.main_screen.MainScreen
 
 @Composable
 fun Navigation(){
