@@ -10,9 +10,8 @@ import nl.becu.dewi.student656552.presentation.viewmodels.NetworkViewModel
 fun MainScreen(
     navController: NavController
 ) {
-    DefaultScreen(
-        navController = navController) {
-        ArticleList(viewModel = NetworkViewModel(), navController = navController)
+    DefaultScreen() {
+        ArticleList(navController = navController)
     }
 
 }

@@ -9,7 +9,7 @@ import nl.becu.dewi.student656552.presentation.screens.DefaultScreen
 fun DetailScreen(
     navController: NavController?,
     articleId: Int?) {
-    DefaultScreen(navController = navController) {
+    DefaultScreen() {
         DetailScreenContent()
     }
 }

@@ -5,10 +5,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import nl.becu.dewi.student656552.domain.use_case.ArticleUseCases
+import javax.inject.Inject
 
-class NetworkViewModel : ViewModel() {
+@HiltViewModel
+class NetworkViewModel @Inject constructor(
+    private val articleUseCases: ArticleUseCases
+) : ViewModel() {
 
     val articles = Pager(PagingConfig(pageSize = 10)){
-        ArticlePager()
+        ArticlePager(articleUseCases)
     }.flow.cachedIn(viewModelScope)
 }
