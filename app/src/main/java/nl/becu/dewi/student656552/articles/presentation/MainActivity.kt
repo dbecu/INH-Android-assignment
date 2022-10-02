@@ -17,14 +17,13 @@ import nl.becu.dewi.student656552.articles.presentation.detail_screen.DetailScre
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            /*
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
                 composable(route = Screen.MainScreen.route) {
@@ -45,7 +44,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-             */
+
         }
     }
 }

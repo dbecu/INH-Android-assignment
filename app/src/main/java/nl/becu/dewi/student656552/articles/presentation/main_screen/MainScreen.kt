@@ -22,14 +22,14 @@ fun MainScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    /*
-    DefaultScreen(
-        navController = navController) {
+
+    DefaultScreen() {
         ArticleList(viewModel = viewModel, navController = navController)
     }
 
-     */
 
+
+    /*
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -43,5 +43,7 @@ fun MainScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
+
+     */
 
 }

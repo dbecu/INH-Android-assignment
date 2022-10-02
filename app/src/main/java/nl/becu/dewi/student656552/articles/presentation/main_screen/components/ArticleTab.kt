@@ -35,6 +35,7 @@ fun ArticleTab(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             AsyncImage(
                 model = article.Image,
                 contentDescription = "Image of news item",
@@ -43,6 +44,7 @@ fun ArticleTab(
                     .padding(4.dp),
                 placeholder = painterResource(R.drawable.default_image_thumbnail)
             )
+
 
             Text(
                 text = article.Title,

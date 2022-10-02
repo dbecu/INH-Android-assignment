@@ -28,7 +28,11 @@ fun ArticleList(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
-    Box {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(state.articles) { article ->
+            ArticleTab(article = article, navController = navController)
 
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
 }
