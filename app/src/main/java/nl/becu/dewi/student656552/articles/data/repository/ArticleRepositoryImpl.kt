@@ -24,7 +24,11 @@ class ArticleRepositoryImpl(
                     Feed = Feed!!,
                     Title = Title!!,
                     Summary = Summary!!,
-                    Image = Image!!
+                    Image = Image!!,
+                    PublishDate = PublishDate!!,
+                    Url = Url!!,
+                    Related = Related!!,
+                    IsLiked = IsLiked!!
                 )
             }
         } ?: emptyList()

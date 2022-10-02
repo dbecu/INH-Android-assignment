@@ -6,14 +6,17 @@ import androidx.navigation.NavController
 
 @Composable
 fun DefaultScreen(
-    content: @Composable() () -> Unit
+    navigationTitle: String?,
+    content: @Composable() () -> Unit,
+    navController: NavController
 ) {
     Scaffold (
         topBar = {
             TopAppBar(
-                title = { Text("Triple newspaper") },
+                title = { Text(navigationTitle ?: "Triple newspaper") },
                 backgroundColor = MaterialTheme.colors.primary,
-                contentColor = MaterialTheme.colors.onPrimary
+                contentColor = MaterialTheme.colors.onPrimary,
+       
             )
         },
         content = { content() },

@@ -34,7 +34,11 @@ class ArticleMapper {
                     Feed = Feed!!,
                     Title = Title!!,
                     Summary = Summary!!,
-                    Image = Image!!
+                    Image = Image!!,
+                    PublishDate = PublishDate!!,
+                    Url = Url!!,
+                    Related = Related!!,
+                    IsLiked = IsLiked!!
                 )
             }
         } ?: emptyList()
@@ -47,7 +51,11 @@ class ArticleMapper {
                 Feed = this?.get(0)?.Feed!!,
                 Title = this?.get(0)?.Title!!,
                 Summary = this?.get(0)?.Summary!!,
-                Image = this?.get(0)?.Image!!
+                Image = this?.get(0)?.Image!!,
+                PublishDate = this?.get(0)?.PublishDate!!,
+                Url = this?.get(0)?.Url!!,
+                Related = this?.get(0)?.Related!!,
+                IsLiked = this?.get(0)?.IsLiked!!
             )
         }
     }
