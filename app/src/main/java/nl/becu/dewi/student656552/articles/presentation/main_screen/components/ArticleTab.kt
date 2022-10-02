@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
@@ -24,7 +25,7 @@ fun ArticleTab(
     article: Article,
     navController: NavController
 ) {
-    /*
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,5 +53,5 @@ fun ArticleTab(
         }
     }
 
-     */
+
 }
