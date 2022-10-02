@@ -1,5 +1,7 @@
 package nl.becu.dewi.student656552.articles.presentation.main_screen.components
 
+import android.R.id
+import android.content.Intent
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,11 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import java.security.AccessController.getContext
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -30,7 +36,9 @@ fun ArticleTab(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        onClick = { navController.navigate(Screen.DetailScreen.withArgs(article.Id)) }
+        onClick = {
+            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
+        }
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically

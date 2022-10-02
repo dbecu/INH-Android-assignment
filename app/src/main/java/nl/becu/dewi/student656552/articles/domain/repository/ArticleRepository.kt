@@ -6,5 +6,5 @@ interface ArticleRepository {
 
     suspend fun getArticles(): List<Article>
 
-    suspend fun getArticleById(id: Int): Article?
+    suspend fun getArticleById(id: Int): Article
 }

@@ -38,9 +38,8 @@ class MainActivity : ComponentActivity() {
                             nullable = false
                         }
                     )
-                ) {
-                        entry ->
-                    DetailScreen(articleId = entry.arguments?.getInt("articleId"), navController = null)
+                ) { entry ->
+                    DetailScreen(articleId = entry.arguments?.getInt("articleId"), navController = navController)
                 }
             }
 

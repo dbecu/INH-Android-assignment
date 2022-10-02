@@ -17,6 +17,7 @@ class MainViewModel @Inject constructor(
     private val _state = mutableStateOf(MainState())
     val state: State<MainState> = _state
 
+
     init {
         getArticles()
     }

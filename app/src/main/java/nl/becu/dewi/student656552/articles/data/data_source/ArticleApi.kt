@@ -14,7 +14,7 @@ interface ArticleApi {
 
     @GET("Articles/{articleID}")
     suspend fun getArticleById(
-        @Path("articleID") amount: Int
+        @Path("articleID") id: Int
     ): Response<ArticleResponseEntity>
 
 }
