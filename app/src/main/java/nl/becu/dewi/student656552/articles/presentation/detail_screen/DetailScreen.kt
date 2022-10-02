@@ -17,23 +17,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.becu.dewi.student656552.R
+import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 
 @Composable
 fun DetailScreen(
-    navController: NavController,
-    articleId: Int?) {
-
-    DetailScreenContent(navController = navController, articleId = articleId)
-}
-
-@Composable
-private fun DetailScreenContent(
     viewModel: DetailViewModel = hiltViewModel(),
     navController: NavController,
-    articleId: Int?){
+    articleId: Int?) {
 
     if (articleId == null)
     {
@@ -46,10 +39,21 @@ private fun DetailScreenContent(
     }
 
     val state = viewModel.state.value
+    state.article?.Title?.let {
+        DefaultScreen(navController = navController, navigationTitle = it) {
+            DetailScreenContent(state.article)
+        }
+    }
+}
+
+@Composable
+private fun DetailScreenContent(
+    article: Article?) {
+
     val uriHandler = LocalUriHandler.current
 
     Column() {
-        state.article?.let {
+        article?.let {
             AsyncImage(
                 model = it.Image,
                 contentDescription = "Image of news item",
@@ -63,7 +67,7 @@ private fun DetailScreenContent(
             Text(modifier = Modifier.clickable {
                 uriHandler.openUri(it.Url) //TODO: What does it mean, must reside behind a clickable view?
             },
-            text = "ExampleText")
+            text = "Link to article")
         }
     }
 }

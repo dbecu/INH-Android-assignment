@@ -22,7 +22,7 @@ fun MainScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    DefaultScreen() {
+    DefaultScreen(navController = navController, haveBackButton = false) {
         ArticleList(viewModel = viewModel, navController = navController)
     }
 
