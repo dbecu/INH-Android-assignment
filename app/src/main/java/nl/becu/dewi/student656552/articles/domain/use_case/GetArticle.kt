@@ -6,9 +6,11 @@ import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
 class GetArticle(
     private val repository: ArticleRepository
 ) {
-    suspend operator fun invoke(id: Int): Result<Article> {
+    /*suspend operator fun invoke(id: Int): Result<Article> {
         return repository.getArticleById(id)
     }
+
+     */
 
 
     /*

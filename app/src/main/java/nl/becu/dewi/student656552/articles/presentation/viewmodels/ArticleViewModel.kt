@@ -31,7 +31,7 @@ class ArticleViewModel(
     init{
         GlobalScope.launch{
             //fetch()
-            articleUseCases.getArticle(1)
+            //articleUseCases.getArticle(1)
         }
     }
 }
