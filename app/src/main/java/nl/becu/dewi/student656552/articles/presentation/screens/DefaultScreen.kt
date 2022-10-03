@@ -29,15 +29,6 @@ fun DefaultScreen(
                 }
             )
         },
-        content = { content() },
-        bottomBar = {
-            BottomAppBar(
-                backgroundColor = MaterialTheme.colors.primary,
-                contentColor = MaterialTheme.colors.onPrimary
-            )
-            {
-                Text("Bottom app bar")
-            }
-        }
+        content = { content() }
     )
 }

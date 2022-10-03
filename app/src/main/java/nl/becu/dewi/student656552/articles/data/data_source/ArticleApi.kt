@@ -18,6 +18,12 @@ interface ArticleApi {
         @Path("articleID") id: Int
     ): Response<ArticleResponseEntity>
 
+    @GET("Articles/{articleID}")
+    suspend fun getArticlesByStartingWith(
+        @Path("articleID") id: Int,
+        @Query("count") amount: Int
+    ): Response<ArticleResponseEntity>
+
     @FormUrlEncoded
     @POST("User/login")
     suspend fun login(

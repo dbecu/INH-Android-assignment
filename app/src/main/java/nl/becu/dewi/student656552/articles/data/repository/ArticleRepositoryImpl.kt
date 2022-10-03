@@ -14,6 +14,25 @@ class ArticleRepositoryImpl(
 
     private val mapper = ArticleMapper()
 
+    override suspend fun getResultArticles(startingIndex: Int, pageSize: Int): Result<List<Article>> {
+        val response = api.getArticlesByStartingWith(startingIndex, pageSize)
+        val articles = mapper.mapResponseEntityToArticles(response.body())
+
+        when {
+            response.isSuccessful -> {
+                if (articles.isEmpty()) {
+                    throw Exception()
+                } else {
+                    return Result.success(articles)
+                }
+            }
+            else -> {
+                throw Exception()
+            }
+
+        }
+    }
+
     override suspend fun getArticles(): List<Article> {
         //startKey: Int, loadSize: Int
 
@@ -85,6 +104,25 @@ class ArticleRepositoryImpl(
          */
 
         return ArticleResponse(emptyList(), 1)
+    }
+
+
+
+    override suspend fun getNextId(startingIndex: Int, pageSize: Int): Int {
+        val response = api.getArticlesByStartingWith(startingIndex, pageSize)
+        val responseBody = response.body()
+
+        when {
+            response.isSuccessful -> {
+                if (responseBody?.NextId == null) {
+                    throw Exception()
+                } else {
+                    return Result.success(responseBody.NextId).getOrThrow()
+                }
+            } else -> {
+                throw Exception()
+            }
+        }
     }
 
 }

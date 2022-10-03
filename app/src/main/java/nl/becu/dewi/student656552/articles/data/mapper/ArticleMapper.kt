@@ -88,4 +88,23 @@ class ArticleMapper {
             )
         }
     }
+
+    fun mapResponseEntityToArticles(entity: ArticleResponseEntity?): List<Article>{
+        return entity?.Results?.map {
+            with(it) {
+                Article(
+                    Id = Id!!,
+                    Feed = Feed!!,
+                    Title = Title!!,
+                    Summary = Summary!!,
+                    Image = Image!!,
+                    PublishDate = dateFormatter.parse(PublishDate!!),
+                    Url = Url!!,
+                    Related = Related!!,
+                    IsLiked = IsLiked!!,
+                    Categories = Categories!!
+                )
+            }
+        } ?: emptyList()
+    }
 }

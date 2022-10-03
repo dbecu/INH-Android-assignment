@@ -9,9 +9,7 @@ import nl.becu.dewi.student656552.articles.data.data_source.ArticleApi
 import nl.becu.dewi.student656552.articles.data.data_source.UserApi
 import nl.becu.dewi.student656552.articles.data.repository.ArticleRepositoryImpl
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
-import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
-import nl.becu.dewi.student656552.articles.domain.use_case.GetArticle
-import nl.becu.dewi.student656552.articles.domain.use_case.GetArticles
+import nl.becu.dewi.student656552.articles.domain.use_case.*
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -40,7 +38,9 @@ class AppModule {
     fun provideArticleUseCases(repository: ArticleRepository): ArticleUseCases {
         return ArticleUseCases(
             getArticles = GetArticles(repository),
-            getArticle = GetArticle(repository)
+            getArticle = GetArticle(repository),
+            getNextId = GetNextId(repository),
+            getResultArticles = GetResultArticles(repository)
         )
     }
 }

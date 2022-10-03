@@ -1,11 +1,9 @@
 package nl.becu.dewi.student656552.articles.presentation.main_screen.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -13,6 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import nl.becu.dewi.student656552.articles.presentation.components.PageState
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
@@ -28,11 +27,31 @@ fun ArticleList(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(state.articles) { article ->
-            ArticleTab(article = article, navController = navController)
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        items(state.articles.size) { i ->
+            val item = state.articles[i]
+            if (i >= state.articles.size - 1 &&
+                !state.endReached &&
+                !state.isLoading) {
+                viewModel.loadNextItems()
+            }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            ArticleTab(article = item, navController = navController)
+        }
+
+        item{
+            if (state.isLoading) {
+                Row (
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
         }
     }
 }
