@@ -56,7 +56,7 @@ fun TopBar(navigationTitle: String, haveBackButton: Boolean, navController: NavC
 }
 
 @Composable
-fun BottomBar(navController: NavController) {
+fun BottomBar(navController: NavController, isLoggedIn: Boolean = false) {
     val selectedIndex = remember { mutableStateOf(0) }
     BottomNavigation(elevation = 10.dp) {
 
@@ -74,10 +74,22 @@ fun BottomBar(navController: NavController) {
             Icon(imageVector = Icons.Default.Person,"")
         },
             label = { Text(text = "Profile") },
-            selected = (selectedIndex.value == 2),
+            selected = (selectedIndex.value == 1),
             onClick = {
-                selectedIndex.value = 2
+                selectedIndex.value = 1
                 navController.navigate(route = Screen.LoginScreen.route)
             })
+
+        if (isLoggedIn) {
+            BottomNavigationItem(icon = {
+                Icon(imageVector = Icons.Default.Favorite, "")
+            },
+                label = { Text(text = "Favorites") },
+                selected = (selectedIndex.value == 2),
+                onClick = {
+                    selectedIndex.value = 2
+                    navController.navigate(route = Screen.LoginScreen.route)
+                })
+        }
     }
 }

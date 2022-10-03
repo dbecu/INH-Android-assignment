@@ -27,8 +27,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
-                composable(route = Screen.MainScreen.route) {
-                    MainScreen(navController = navController)
+                composable(
+                    route = Screen.MainScreen.route + "/{authToken}",
+                    arguments = listOf(
+                        navArgument("authToken") {
+                            type = NavType.StringType
+                            nullable = true
+                        }
+                    )
+                ) { entry ->
+                    MainScreen(navController = navController, authToken = entry.arguments?.getString("authToken"))
                 }
 
                 composable(
@@ -43,8 +51,9 @@ class MainActivity : ComponentActivity() {
                     DetailScreen(articleId = entry.arguments?.getInt("articleId"), navController = navController)
                 }
                 
-                composable(route = Screen.LoginScreen.route) {
-                    LoginScreen(navController = navController)
+                composable(
+                    route = Screen.LoginScreen.route
+                ) { LoginScreen(navController = navController)
                 }
             }
 

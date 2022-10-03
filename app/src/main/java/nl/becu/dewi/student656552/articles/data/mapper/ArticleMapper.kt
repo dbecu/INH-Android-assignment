@@ -95,4 +95,13 @@ class ArticleMapper {
             }
         } ?: emptyList()
     }
+
+    fun mapResponseEntityToLikedIds(entity: ArticleResponseEntity?): List<Int> {
+        return entity?.Results?.map {
+            with(it) {
+                Id!!
+            }
+        } ?: emptyList()
+
+    }
 }

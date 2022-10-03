@@ -20,29 +20,10 @@ import nl.becu.dewi.student656552.articles.presentation.viewmodels.NetworkViewMo
 @Composable
 fun MainScreen(
     navController: NavController,
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel(),
+    authToken: String? = null
 ) {
     DefaultScreen(navController = navController, haveBackButton = false) {
         ArticleList(viewModel = viewModel, navController = navController)
     }
-
-
-
-    /*
-    val state = viewModel.state.value
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
-
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(state.articles) { article ->
-            Text(
-                text = article.Title
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-    }
-
-     */
-
 }

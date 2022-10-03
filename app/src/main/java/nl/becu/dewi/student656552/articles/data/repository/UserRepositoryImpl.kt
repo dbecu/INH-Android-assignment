@@ -9,7 +9,7 @@ class UserRepositoryImpl(
 ) : UserRepository {
 
     override suspend fun login(userName: String, password: String): String {
-        TODO("Not yet implemented")
+        return api.login(userName, password).body() ?: throw Exception() //TODO
     }
 
     override suspend fun register(userName: String, password: String): RegisterModel {

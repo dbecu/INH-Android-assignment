@@ -21,4 +21,11 @@ interface ArticleApi {
         @Path("articleID") id: Int,
         @Query("count") amount: Int
     ): Response<ArticleResponseEntity>
+
+    @GET("Articles/liked")
+    suspend fun getLikedArticles(
+        @Field("x-authtoken") token: String,
+    ): Response<ArticleResponseEntity>
+
+
 }
