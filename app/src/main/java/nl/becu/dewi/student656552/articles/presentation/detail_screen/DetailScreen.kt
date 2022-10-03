@@ -21,6 +21,9 @@ import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun DetailScreen(
@@ -51,6 +54,7 @@ private fun DetailScreenContent(
     article: Article?) {
 
     val uriHandler = LocalUriHandler.current
+    val dateFormat = SimpleDateFormat("yyyy-mm-dd")
 
     Column() {
         article?.let {
@@ -68,7 +72,7 @@ private fun DetailScreenContent(
                 uriHandler.openUri(it.Url) //TODO: What does it mean, must reside behind a clickable view?
             },
             text = "Link to article")
-            Text(it.PublishDate.toString())
+            Text(dateFormat.format(it.PublishDate))
 
             Text("Related content")
             for(article in it.Related){

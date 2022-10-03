@@ -5,6 +5,8 @@ import nl.becu.dewi.student656552.articles.data.mapper.ArticleMapper
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.domain.models.ArticleResponse
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 
 class ArticleRepositoryImpl(
     private val api: ArticleApi
@@ -17,6 +19,8 @@ class ArticleRepositoryImpl(
 
         val articleResponse = api.getArticles(10)
 
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+
         return articleResponse.body()?.Results?.map {
             with(it) {
                 Article(
@@ -25,7 +29,7 @@ class ArticleRepositoryImpl(
                     Title = Title!!,
                     Summary = Summary!!,
                     Image = Image!!,
-                    PublishDate = PublishDate!!,
+                    PublishDate = formatter.parse(PublishDate!!),
                     Url = Url!!,
                     Related = Related!!,
                     IsLiked = IsLiked!!,
