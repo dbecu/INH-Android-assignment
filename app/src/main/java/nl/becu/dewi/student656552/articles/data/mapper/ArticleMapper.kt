@@ -38,7 +38,8 @@ class ArticleMapper {
                     PublishDate = PublishDate!!,
                     Url = Url!!,
                     Related = Related!!,
-                    IsLiked = IsLiked!!
+                    IsLiked = IsLiked!!,
+                    Categories = Categories!!
                 )
             }
         } ?: emptyList()
@@ -55,7 +56,8 @@ class ArticleMapper {
                 PublishDate = this?.get(0)?.PublishDate!!,
                 Url = this?.get(0)?.Url!!,
                 Related = this?.get(0)?.Related!!,
-                IsLiked = this?.get(0)?.IsLiked!!
+                IsLiked = this?.get(0)?.IsLiked!!,
+                Categories = this?.get(0)?.Categories!!
             )
         }
     }

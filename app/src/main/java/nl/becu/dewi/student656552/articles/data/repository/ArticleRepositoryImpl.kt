@@ -28,7 +28,8 @@ class ArticleRepositoryImpl(
                     PublishDate = PublishDate!!,
                     Url = Url!!,
                     Related = Related!!,
-                    IsLiked = IsLiked!!
+                    IsLiked = IsLiked!!,
+                    Categories = Categories!!
                 )
             }
         } ?: emptyList()

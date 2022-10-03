@@ -1,5 +1,7 @@
 package nl.becu.dewi.student656552.articles.domain.models
 
+import java.util.*
+
 data class ArticleEntity(
     val Id: Int?,
     val Feed: Int?,
@@ -9,7 +11,9 @@ data class ArticleEntity(
     val PublishDate: String?, //TODO: CHANGE TO DATE
     val Url: String?,
     val Related: List<String>?,
-    val IsLiked: Boolean?
+    val IsLiked: Boolean?,
+    val Categories: List<Category>?
+
 )
 
 //title, summary,

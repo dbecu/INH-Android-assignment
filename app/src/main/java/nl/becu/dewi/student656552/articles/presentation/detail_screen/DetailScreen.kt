@@ -68,6 +68,21 @@ private fun DetailScreenContent(
                 uriHandler.openUri(it.Url) //TODO: What does it mean, must reside behind a clickable view?
             },
             text = "Link to article")
+            Text(it.PublishDate.toString())
+
+            Text("Related content")
+            for(article in it.Related){
+                Text(modifier = Modifier.clickable {
+                    uriHandler.openUri(article)
+                },
+                    text = article)
+            }
+
+            Text("Categories")
+            for(category in it.Categories){
+                Text(category.Name)
+            }
+
         }
     }
 }
