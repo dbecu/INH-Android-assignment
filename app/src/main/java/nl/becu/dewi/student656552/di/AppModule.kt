@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import nl.becu.dewi.student656552.articles.data.data_source.ArticleApi
+import nl.becu.dewi.student656552.articles.data.data_source.UserApi
 import nl.becu.dewi.student656552.articles.data.repository.ArticleRepositoryImpl
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
 import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
