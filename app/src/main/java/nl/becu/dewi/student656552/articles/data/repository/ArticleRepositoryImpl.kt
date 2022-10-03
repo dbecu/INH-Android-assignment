@@ -21,92 +21,23 @@ class ArticleRepositoryImpl(
         when {
             response.isSuccessful -> {
                 if (articles.isEmpty()) {
-                    throw Exception()
+                    throw Exception() //TODO
                 } else {
                     return Result.success(articles)
                 }
             }
             else -> {
-                throw Exception()
+                throw Exception() //TODO
             }
 
         }
-    }
-
-    override suspend fun getArticles(): List<Article> {
-        //startKey: Int, loadSize: Int
-
-        val articleResponse = api.getArticles(10)
-
-        val formatter = SimpleDateFormat("yyyy-MM-dd")
-
-        return articleResponse.body()?.Results?.map {
-            with(it) {
-                Article(
-                    Id = Id!!,
-                    Feed = Feed!!,
-                    Title = Title!!,
-                    Summary = Summary!!,
-                    Image = Image!!,
-                    PublishDate = formatter.parse(PublishDate!!),
-                    Url = Url!!,
-                    Related = Related!!,
-                    IsLiked = IsLiked!!,
-                    Categories = Categories!!
-                )
-            }
-        } ?: emptyList()
-
-        /*
-        val response = api.getArticles(2)
-        val articles = when {
-            response.isSuccessful -> {
-                val body = response.body()
-                if (body != null){
-                    articleMapper.mapArticles(body)
-                } else{
-                    Result.failure(java.lang.IllegalStateException("Body was empty"))
-                }
-            }
-            else -> Result.failure(java.lang.IllegalStateException("Something went wrong"))
-        }
-
-        return articles.getOrDefault(emptyList())
-
-         */
     }
 
     // TODO: CHANGE THIS LOGIC IS IN THE WRONG LAYER
     override suspend fun getArticleById(id: Int): Article {
         val articleResponse = api.getArticleById(id)
-        return articleResponse.body()?.let { mapper.mapFirstArticle(it).getOrThrow() } ?: throw Exception()
+        return articleResponse.body()?.let { mapper.mapFirstArticle(it).getOrThrow() } ?: throw Exception() //TODO
     }
-
-
-    private suspend fun getArticleResponseById(id: Int): ArticleResponse? {
-        /*
-        val response = api.getArticleById(id)
-
-        val result = when {
-            response.isSuccessful -> {
-                val body = response.body()
-                if (body != null){
-                    articleMapper.mapArticleResponse(body)
-                } else{
-                    Result.failure(java.lang.IllegalStateException("Body was empty"))
-                }
-            }
-            else -> Result.failure(java.lang.IllegalStateException("Something went wrong"))
-        }
-
-        return result.getOrNull()
-
-         */
-
-        return ArticleResponse(emptyList(), 1)
-    }
-
-
 
     override suspend fun getNextId(startingIndex: Int, pageSize: Int): Int {
         val response = api.getArticlesByStartingWith(startingIndex, pageSize)
@@ -115,12 +46,12 @@ class ArticleRepositoryImpl(
         when {
             response.isSuccessful -> {
                 if (responseBody?.NextId == null) {
-                    throw Exception()
+                    throw Exception() //TODO
                 } else {
                     return Result.success(responseBody.NextId).getOrThrow()
                 }
             } else -> {
-                throw Exception()
+                throw Exception() //TODO
             }
         }
     }

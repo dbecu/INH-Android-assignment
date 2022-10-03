@@ -47,7 +47,6 @@ class AppModule {
     @Singleton
     fun provideArticleUseCases(repository: ArticleRepository): ArticleUseCases {
         return ArticleUseCases(
-            getArticles = GetArticles(repository),
             getArticle = GetArticle(repository),
             getNextId = GetNextId(repository),
             getResultArticles = GetResultArticles(repository)

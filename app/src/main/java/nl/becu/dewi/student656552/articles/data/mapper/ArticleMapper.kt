@@ -10,18 +10,6 @@ class ArticleMapper {
 
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
 
-    /*
-    fun map(entity: ArticleEntity): Result<Article> = runCatching {
-        with(entity) {
-            Article(
-                Results = results?.map{mapResult(it).getOrThrow()}.orEmpty(),
-                IsLiked = IsLiked!!,
-                NextId = NextId!!
-            )
-        }
-    }
-     */
-
     fun mapArticleResponse(entity: ArticleResponseEntity): Result<ArticleResponse> = runCatching {
         with(entity) {
             ArticleResponse(
