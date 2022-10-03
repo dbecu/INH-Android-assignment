@@ -21,10 +21,20 @@ class AppModule {
     @Singleton
     fun provideArticleApi(app: Application): ArticleApi {
         return Retrofit.Builder()
-            .baseUrl("https://inhollandbackend.azurewebsites.net/api/")
+            .baseUrl("https://inhollandbackend.azurewebsites.net/api/Articles/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(ArticleApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserApi(app: Application): UserApi {
+        return Retrofit.Builder()
+            .baseUrl("https://inhollandbackend.azurewebsites.net/api/User/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create(UserApi::class.java)
     }
 
     @Provides

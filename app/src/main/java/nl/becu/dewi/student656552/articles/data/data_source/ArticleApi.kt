@@ -8,33 +8,19 @@ import retrofit2.http.*
 
 interface ArticleApi {
 
-    @GET("Articles")
+    @GET("")
     suspend fun getArticles(
         @Query("count") amount: Int
     ): Response<ArticleResponseEntity>
 
-    @GET("Articles/{articleID}")
+    @GET("{articleID}")
     suspend fun getArticleById(
         @Path("articleID") id: Int
     ): Response<ArticleResponseEntity>
 
-    @GET("Articles/{articleID}")
+    @GET("{articleID}")
     suspend fun getArticlesByStartingWith(
         @Path("articleID") id: Int,
         @Query("count") amount: Int
     ): Response<ArticleResponseEntity>
-
-    @FormUrlEncoded
-    @POST("User/login")
-    suspend fun login(
-        @Field("UserName") userName: String,
-        @Field("Password") password: String
-    ) : Response<String>
-
-    @FormUrlEncoded
-    @POST("User/register")
-    suspend fun register(
-        @Field("UserName") userName: String,
-        @Field("Password") password: String
-    ) : Response<RegisterModelEntity>
 }
