@@ -1,8 +1,6 @@
 package nl.becu.dewi.student656552.articles.data.data_source
 
 import nl.becu.dewi.student656552.articles.domain.models.ArticleResponseEntity
-import nl.becu.dewi.student656552.articles.domain.models.RegisterModelEntity
-import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.*
 

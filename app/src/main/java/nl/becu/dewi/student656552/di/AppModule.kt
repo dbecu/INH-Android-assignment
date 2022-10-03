@@ -8,7 +8,9 @@ import dagger.hilt.components.SingletonComponent
 import nl.becu.dewi.student656552.articles.data.data_source.ArticleApi
 import nl.becu.dewi.student656552.articles.data.data_source.UserApi
 import nl.becu.dewi.student656552.articles.data.repository.ArticleRepositoryImpl
+import nl.becu.dewi.student656552.articles.data.repository.UserRepositoryImpl
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
+import nl.becu.dewi.student656552.articles.domain.repository.UserRepository
 import nl.becu.dewi.student656552.articles.domain.use_case.*
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -45,11 +47,25 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideUserRepository(api: UserApi): UserRepository {
+        return UserRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
     fun provideArticleUseCases(repository: ArticleRepository): ArticleUseCases {
         return ArticleUseCases(
             getArticle = GetArticle(repository),
             getNextId = GetNextId(repository),
             getResultArticles = GetResultArticles(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserUseCases(repository: UserRepository): UserUseCase {
+        return UserUseCase(
+            login = Login(repository)
         )
     }
 }

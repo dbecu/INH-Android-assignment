@@ -14,6 +14,7 @@ import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import nl.becu.dewi.student656552.articles.presentation.util.Navigation
 import nl.becu.dewi.student656552.articles.presentation.detail_screen.DetailScreen
+import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginScreen
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 
@@ -40,6 +41,10 @@ class MainActivity : ComponentActivity() {
                     )
                 ) { entry ->
                     DetailScreen(articleId = entry.arguments?.getInt("articleId"), navController = navController)
+                }
+                
+                composable(route = Screen.LoginScreen.route) {
+                    LoginScreen(navController = navController)
                 }
             }
 

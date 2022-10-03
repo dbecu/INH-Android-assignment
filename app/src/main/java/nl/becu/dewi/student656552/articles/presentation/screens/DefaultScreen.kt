@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import nl.becu.dewi.student656552.articles.presentation.util.Screen
 
 @Composable
 fun DefaultScreen(
@@ -30,7 +31,7 @@ fun DefaultScreen(
 ) {
     Scaffold(
         topBar = { TopBar(navigationTitle, haveBackButton, navController) },
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(navController) }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             content()
@@ -55,7 +56,7 @@ fun TopBar(navigationTitle: String, haveBackButton: Boolean, navController: NavC
 }
 
 @Composable
-fun BottomBar() {
+fun BottomBar(navController: NavController) {
     val selectedIndex = remember { mutableStateOf(0) }
     BottomNavigation(elevation = 10.dp) {
 
@@ -66,6 +67,7 @@ fun BottomBar() {
             selected = (selectedIndex.value == 0),
             onClick = {
                 selectedIndex.value = 0
+                navController.navigate(route = Screen.MainScreen.route)
             })
 
         BottomNavigationItem(icon = {
@@ -75,6 +77,7 @@ fun BottomBar() {
             selected = (selectedIndex.value == 2),
             onClick = {
                 selectedIndex.value = 2
+                navController.navigate(route = Screen.LoginScreen.route)
             })
     }
 }

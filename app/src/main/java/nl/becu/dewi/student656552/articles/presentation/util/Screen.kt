@@ -3,6 +3,7 @@ package nl.becu.dewi.student656552.articles.presentation.util
 sealed class Screen(val route: String) {
     object MainScreen: Screen("main_screen")
     object DetailScreen: Screen("detail_screen")
+    object LoginScreen: Screen("login_screen")
 
     fun withArgs(vararg args: String): String {
         return buildString{
