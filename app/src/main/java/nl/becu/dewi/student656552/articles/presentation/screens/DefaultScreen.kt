@@ -27,11 +27,12 @@ fun DefaultScreen(
     navigationTitle: String = "Triple newspaper",
     haveBackButton: Boolean = true,
     navController: NavController,
-    content: @Composable() () -> Unit,
+    isLoggedIn: Boolean = false,
+    content: @Composable() () -> Unit
 ) {
     Scaffold(
         topBar = { TopBar(navigationTitle, haveBackButton, navController) },
-        bottomBar = { BottomBar(navController) }
+        bottomBar = { BottomBar(navController, isLoggedIn = isLoggedIn) }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             content()

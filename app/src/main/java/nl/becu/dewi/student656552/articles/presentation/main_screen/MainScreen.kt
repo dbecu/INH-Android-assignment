@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,7 +24,13 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
     authToken: String? = null
 ) {
-    DefaultScreen(navController = navController, haveBackButton = false) {
+    if (authToken != null) {
+        LaunchedEffect(authToken) {
+            viewModel.init(authToken)
+        }
+    }
+    val isLoggedIn = authToken != null
+    DefaultScreen(navController = navController, haveBackButton = false, isLoggedIn = isLoggedIn) {
         ArticleList(viewModel = viewModel, navController = navController)
     }
 }

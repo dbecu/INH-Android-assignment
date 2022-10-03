@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
+import nl.becu.dewi.student656552.articles.presentation.util.Screen
 
 @Composable
 fun LoginScreen(
@@ -25,17 +26,19 @@ fun LoginScreen(
     val scope = rememberCoroutineScope()
 
     DefaultScreen(navController = navController) {
-        LoginScreenContent(viewModel)
+        LoginScreenContent(viewModel, navController)
     }
 }
 
 @Composable
-fun LoginScreenContent(viewModel: LoginViewModel){
+fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
     Column(Modifier.padding(16.dp)) {
         SimpleOutlinedTextField("User name", viewModel.userName)
         SimpleOutlinedTextField("Password", viewModel.password)
         Button(onClick = {
-            LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text)
+            viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
+            navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text)) //if all goes good
+            //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {
             Text(text = "Login")
         }

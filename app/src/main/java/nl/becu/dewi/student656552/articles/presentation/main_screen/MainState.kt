@@ -14,5 +14,5 @@ data class MainState (
     val page: Int = 134067, //page index
 
     //user
-    val isLoggedIn: Boolean = false
+    val authToken: String? = null
 )

@@ -33,7 +33,7 @@ class AppModule {
     @Singleton
     fun provideUserApi(app: Application): UserApi {
         return Retrofit.Builder()
-            .baseUrl("https://inhollandbackend.azurewebsites.net/api/User/")
+            .baseUrl("https://inhollandbackend.azurewebsites.net/api/Users/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(UserApi::class.java)

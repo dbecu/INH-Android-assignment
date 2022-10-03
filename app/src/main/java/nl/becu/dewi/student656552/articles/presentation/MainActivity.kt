@@ -26,14 +26,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
+            NavHost(navController = navController, startDestination = Screen.MainScreen.route + "?authToken={authToken}") {
                 composable(
-                    route = Screen.MainScreen.route + "/{authToken}",
+                    route = Screen.MainScreen.route + "?authToken={authToken}",
                     arguments = listOf(
                         navArgument("authToken") {
                             type = NavType.StringType
                             nullable = true
+                            defaultValue = null
                         }
+
                     )
                 ) { entry ->
                     MainScreen(navController = navController, authToken = entry.arguments?.getString("authToken"))

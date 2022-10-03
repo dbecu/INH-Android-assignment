@@ -26,6 +26,11 @@ class LoginViewModel@Inject constructor(
     ))
     val password: State<LoginTextFieldState> = _password
 
+    private val _authToken = mutableStateOf(LoginTextFieldState(
+        text = ""
+    ))
+    val authToken: State<LoginTextFieldState> = _authToken
+
     fun onEvent(event: LoginEvent) {
         when(event) {
             is EnteredUsername -> {
@@ -34,7 +39,8 @@ class LoginViewModel@Inject constructor(
             }
             is Login -> {
                 viewModelScope.launch {
-                    userUseCases.login(userName.value.text, password.value.text) //TODO: have a try catch here
+                    _authToken.value = authToken.value.copy(
+                        text = userUseCases.login(userName.value.text, password.value.text))
                 }
             }
         }

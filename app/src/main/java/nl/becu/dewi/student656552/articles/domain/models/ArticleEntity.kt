@@ -8,7 +8,7 @@ data class ArticleEntity(
     val Title: String?,
     val Summary: String?,
     val Image: String?,
-    val PublishDate: String?, //TODO: CHANGE TO DATE
+    val PublishDate: String?,
     val Url: String?,
     val Related: List<String>?,
     val IsLiked: Boolean?,

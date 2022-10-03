@@ -5,11 +5,20 @@ sealed class Screen(val route: String) {
     object DetailScreen: Screen("detail_screen")
     object LoginScreen: Screen("login_screen")
 
+    fun withOptionalAuthArgs(vararg args: String?): String {
+        return buildString{
+            append(route)
+            args.forEach {
+                    arg -> if (arg != null) append("?authToken=$arg")
+            }
+        }
+    }
+
     fun withArgs(vararg args: String): String {
         return buildString{
             append(route)
             args.forEach {
-                arg -> append("/$arg")
+                arg ->  append("/$arg")
             }
         }
     }

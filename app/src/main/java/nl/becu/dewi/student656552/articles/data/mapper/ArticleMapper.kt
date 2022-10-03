@@ -102,6 +102,5 @@ class ArticleMapper {
                 Id!!
             }
         } ?: emptyList()
-
     }
 }
