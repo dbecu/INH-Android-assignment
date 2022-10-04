@@ -24,9 +24,10 @@ interface ArticleApi {
     ): Response<ArticleResponseEntity>
 
 
+    @Headers("Content-Type: application/json")
     @GET("liked")
     suspend fun getLikedArticles(
-        @Query("x-authtoken") token: String,
+        @Header("x-authtoken") token: String,
     ): Response<ArticleResponseEntity>
 
 
