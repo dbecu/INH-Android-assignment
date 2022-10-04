@@ -98,4 +98,12 @@ class ArticleRepositoryImpl(
         }
     }
 
+    override suspend fun putLikeArticle(articleId: Int, authToken: String) {
+        api.putLikeArticle(articleId, authToken)    //TODO error handling
+    }
+
+    override suspend fun deleteLikeArticle(articleId: Int, authToken: String) {
+        api.deleteLikeArticle(articleId, authToken) //TODO error handling
+    }
+
 }

@@ -5,7 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -42,13 +47,36 @@ fun DetailScreen(
 
     LaunchedEffect(articleId) {
         viewModel.init(articleId)
+        viewModel.onEvent(DetailEvent.GetAuthToken(sharedPref?.getString("authToken", null) ?: ""))
     }
 
     val state = viewModel.state.value
     state.article?.Title?.let {
-        DefaultScreen(navController = navController, navigationTitle = it, sharedPref = sharedPref) {
+        DefaultScreen(navController = navController, navigationTitle = it, sharedPref = sharedPref, floatButton = {
+            FloatingButton(
+                isLiked = state.article.IsLiked,
+                viewModel = viewModel
+            )
+        }) {
             DetailScreenContent(state.article)
         }
+    }
+}
+
+@Composable
+private fun FloatingButton(isLiked: Boolean, viewModel: DetailViewModel){
+    val state = viewModel.state
+
+    FloatingActionButton(
+        onClick = {
+            if (isLiked) {
+                viewModel.onEvent(DetailEvent.DeleteArticleLike(state.value.article?.Id ?: 1, state.value.authToken))
+            } else {
+                viewModel.onEvent(DetailEvent.PutArticleLike(state.value.article?.Id ?: 1, state.value.authToken))
+          }
+        }
+    ){
+        Icon(if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder, "")
     }
 }
 

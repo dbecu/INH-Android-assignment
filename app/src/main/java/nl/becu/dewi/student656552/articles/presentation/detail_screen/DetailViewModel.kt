@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.domain.models.ArticleEntity
 import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
+import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainState
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 import javax.inject.Inject
@@ -20,11 +21,37 @@ class DetailViewModel @Inject constructor(
     private val articleUseCases: ArticleUseCases
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(DetailState())
+    private val _state = mutableStateOf(DetailState(
+        authToken = ""
+    ))
     val state: State<DetailState> = _state
 
-    init {
-
+    fun onEvent(event: DetailEvent) {
+        when (event) {
+            is DetailEvent.PutArticleLike -> {
+                viewModelScope.launch {
+                    articleUseCases.putLikeArticle(
+                        state.value.article?.Id ?: 0,
+                        state.value.authToken
+                    )
+                }
+            }
+            is DetailEvent.DeleteArticleLike -> {
+                viewModelScope.launch {
+                    articleUseCases.deleteLikeArticle(
+                        state.value.article?.Id ?: 0,
+                        state.value.authToken
+                    )
+                }
+            }
+            is DetailEvent.GetAuthToken -> {
+                viewModelScope.launch {
+                    _state.value = state.value.copy(
+                        authToken = event.authToken
+                    )
+                }
+            }
+        }
     }
 
     fun init(articleId: Int) {

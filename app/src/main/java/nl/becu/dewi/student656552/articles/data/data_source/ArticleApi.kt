@@ -38,5 +38,17 @@ interface ArticleApi {
         @Header("x-authtoken") token: String,
     ): Response<ArticleResponseEntity>
 
+    @Headers("Content-Type: application/json")
+    @PUT("{articleID}/like")
+    suspend fun putLikeArticle(
+        @Path("articleID") id: Int,
+        @Header("x-authtoken") token: String,
+    ): Response<Unit>
 
+    @Headers("Content-Type: application/json")
+    @DELETE("{articleID}/like")
+    suspend fun deleteLikeArticle(
+        @Path("articleID") id: Int,
+        @Header("x-authtoken") token: String,
+    ): Response<Unit>
 }

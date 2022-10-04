@@ -32,6 +32,7 @@ fun DefaultScreen(
     navController: NavController,
     sharedPref: SharedPreferences?,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
+    floatButton: (@Composable() () -> Unit)? = null,
     content: @Composable() () -> Unit
 ) {
     var isLoggedIn = false
@@ -47,6 +48,7 @@ fun DefaultScreen(
     Scaffold(
         topBar = { TopBar(navigationTitle, haveBackButton, navController) },
         bottomBar = { BottomBar(navController, isLoggedIn = isLoggedIn) },
+        floatingActionButton = { floatButton?.let { it() } },
         scaffoldState = scaffoldState
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {

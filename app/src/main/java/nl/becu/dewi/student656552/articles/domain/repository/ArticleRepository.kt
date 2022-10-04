@@ -13,5 +13,7 @@ interface ArticleRepository {
 
     suspend fun getArticlesByStartingWithAuth(startingIndex: Int, pageSize: Int, authToken: String): Result<List<Article>>
 
+    suspend fun putLikeArticle(articleId: Int, authToken: String): Unit
+    suspend fun deleteLikeArticle(articleId: Int, authToken: String): Unit
 
 }
