@@ -5,5 +5,6 @@ import nl.becu.dewi.student656552.articles.domain.models.RegisterModel
 
 sealed class LoginEvent{
     data class EnteredUsername(val value: String): LoginEvent()
+    data class EnteredPassword(val value: String): LoginEvent()
     data class Login(val userName: String, val password: String): LoginEvent()
 }

@@ -1,5 +1,6 @@
 package nl.becu.dewi.student656552.articles.presentation
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import nl.becu.dewi.student656552.articles.presentation.detail_screen.DetailScre
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginScreen
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import java.util.prefs.Preferences
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -25,6 +27,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val sharedPref = getSharedPreferences("user_cred", Context.MODE_PRIVATE)
+            val editor = sharedPref.edit()
+
+            editor.apply{
+                putString("name", "DewiUser")
+                apply()
+            }
+
+            val name = sharedPref.getString("name", null)
+
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Screen.MainScreen.route + "?authToken={authToken}") {
                 composable(
@@ -38,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
                     )
                 ) { entry ->
-                    MainScreen(navController = navController, authToken = entry.arguments?.getString("authToken"))
+                    MainScreen(navController = navController, sharedPref = sharedPref)
                 }
 
                 composable(
@@ -55,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 
                 composable(
                     route = Screen.LoginScreen.route
-                ) { LoginScreen(navController = navController)
+                ) { LoginScreen(navController = navController, sharedPref = sharedPref)
                 }
             }
 

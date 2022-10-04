@@ -15,7 +15,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import nl.becu.dewi.student656552.articles.presentation.components.PageState
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
-import nl.becu.dewi.student656552.articles.presentation.viewmodels.NetworkViewModel
 
 @Composable
 fun ArticleList(

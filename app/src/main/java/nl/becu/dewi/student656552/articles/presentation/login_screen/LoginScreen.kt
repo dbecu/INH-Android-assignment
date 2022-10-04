@@ -1,5 +1,6 @@
 package nl.becu.dewi.student656552.articles.presentation.login_screen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
@@ -19,29 +20,61 @@ import nl.becu.dewi.student656552.articles.presentation.util.Screen
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    sharedPref: SharedPreferences
 ){
     val userName = viewModel.userName
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
     DefaultScreen(navController = navController) {
-        LoginScreenContent(viewModel, navController)
+        LoginScreenContent(viewModel, navController, sharedPref = sharedPref)
     }
 }
 
 @Composable
-fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
+fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, sharedPref: SharedPreferences){
     Column(Modifier.padding(16.dp)) {
-        SimpleOutlinedTextField("User name", viewModel.userName)
-        SimpleOutlinedTextField("Password", viewModel.password)
+
+
+        //User name
+        var userNameText by remember { mutableStateOf(viewModel.userName.value.text) }
+        OutlinedTextField(
+            value = userNameText,
+            onValueChange = {
+                userNameText = it
+                viewModel.onEvent(LoginEvent.EnteredUsername(userNameText)) },
+            label = { Text("User name") }
+        )
+
+        //Passowrd
+        var passwordText by remember { mutableStateOf(viewModel.password.value.text) }
+        OutlinedTextField(
+            value = passwordText,
+            onValueChange = {
+                passwordText = it
+                viewModel.onEvent(LoginEvent.EnteredPassword(passwordText)) },
+            label = { Text("Password") },
+            visualTransformation = PasswordVisualTransformation()
+        )
+
+        //BUtton login
         Button(onClick = {
             viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
+
+            sharedPref.edit().apply{    //TODO: do a check
+                putString("userName", viewModel.userName.value.text)
+                putString("password", viewModel.password.value.text)
+                putString("authToken", viewModel.authToken.value.text)
+                apply()
+            }
             navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text)) //if all goes good
             //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {
             Text(text = "Login")
         }
+
+        //Register redirect
         ClickableText(
             text = AnnotatedString("Register"),
             onClick = {
@@ -49,18 +82,4 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
             })
     }
 
-}
-
-@Composable
-fun SimpleOutlinedTextField(label: String, state: State<LoginTextFieldState>, isPassword: Boolean = false) {
-    var text by remember { mutableStateOf(state.value.text) }
-
-    OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
-        label = { Text(label) },
-        visualTransformation = if (isPassword) { PasswordVisualTransformation() } else {
-            VisualTransformation.None
-        },
-    )
 }

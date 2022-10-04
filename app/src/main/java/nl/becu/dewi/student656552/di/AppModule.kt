@@ -1,6 +1,7 @@
 package nl.becu.dewi.student656552.di
 
 import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,29 +13,50 @@ import nl.becu.dewi.student656552.articles.data.repository.UserRepositoryImpl
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
 import nl.becu.dewi.student656552.articles.domain.repository.UserRepository
 import nl.becu.dewi.student656552.articles.domain.use_case.*
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    private var BASE_URL = "https://inhollandbackend.azurewebsites.net/api/"
+
+    private var httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
+        .callTimeout(2, TimeUnit.MINUTES)
+        .connectTimeout(20, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+
     @Provides
     @Singleton
     fun provideArticleApi(app: Application): ArticleApi {
-        return Retrofit.Builder()
-            .baseUrl("https://inhollandbackend.azurewebsites.net/api/Articles/")
+        val builder = Retrofit.Builder()
+            .baseUrl(BASE_URL + "Articles/")
             .addConverterFactory(MoshiConverterFactory.create())
+
+        builder.client(httpClient.build());
+
+        return builder
             .build()
             .create(ArticleApi::class.java)
     }
 
+
     @Provides
     @Singleton
     fun provideUserApi(app: Application): UserApi {
-        return Retrofit.Builder()
-            .baseUrl("https://inhollandbackend.azurewebsites.net/api/Users/")
+        val builder = Retrofit.Builder()
+            .baseUrl(BASE_URL + "Users/")
             .addConverterFactory(MoshiConverterFactory.create())
+
+        builder.client(httpClient.build());
+
+        return builder
             .build()
             .create(UserApi::class.java)
     }

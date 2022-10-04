@@ -37,6 +37,10 @@ class LoginViewModel@Inject constructor(
                 _userName.value = userName.value.copy(
                     text = event.value)
             }
+            is LoginEvent.EnteredPassword -> {
+                _password.value = _password.value.copy(
+                    text = event.value)
+            }
             is Login -> {
                 viewModelScope.launch {
                     _authToken.value = authToken.value.copy(

@@ -1,5 +1,6 @@
 package nl.becu.dewi.student656552.articles.presentation.main_screen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -16,20 +17,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import nl.becu.dewi.student656552.articles.presentation.main_screen.components.ArticleList
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
-import nl.becu.dewi.student656552.articles.presentation.viewmodels.NetworkViewModel
 
 @Composable
 fun MainScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel(),
-    authToken: String? = null
+    sharedPref: SharedPreferences? = null
 ) {
-    if (authToken != null) {
-        LaunchedEffect(authToken) {
-            viewModel.init(authToken)
-        }
+
+    var isLoggedIn = false
+    if (sharedPref != null) {
+        isLoggedIn = sharedPref.getString("authToken", null) != null
     }
-    val isLoggedIn = authToken != null
+
     DefaultScreen(navController = navController, haveBackButton = false, isLoggedIn = isLoggedIn) {
         ArticleList(viewModel = viewModel, navController = navController)
     }
