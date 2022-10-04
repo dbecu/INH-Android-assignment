@@ -18,10 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import nl.becu.dewi.student656552.articles.presentation.util.observeAsState
 
 @Composable
 fun DefaultScreen(
@@ -29,6 +31,7 @@ fun DefaultScreen(
     haveBackButton: Boolean = true,
     navController: NavController,
     sharedPref: SharedPreferences?,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
     content: @Composable() () -> Unit
 ) {
     var isLoggedIn = false
@@ -37,9 +40,14 @@ fun DefaultScreen(
         isLoggedIn = !token.isNullOrBlank()
     }
 
+    val lifecycleState = LocalLifecycleOwner.current.lifecycle.observeAsState()
+    val state = lifecycleState.value
+
+
     Scaffold(
         topBar = { TopBar(navigationTitle, haveBackButton, navController) },
-        bottomBar = { BottomBar(navController, isLoggedIn = isLoggedIn) }
+        bottomBar = { BottomBar(navController, isLoggedIn = isLoggedIn) },
+        scaffoldState = scaffoldState
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             content()

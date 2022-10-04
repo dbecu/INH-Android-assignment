@@ -24,7 +24,7 @@ interface ArticleApi {
     ): Response<ArticleResponseEntity>
 
 
-    @GET("Articles/liked")
+    @GET("liked")
     suspend fun getLikedArticles(
         @Query("x-authtoken") token: String,
     ): Response<ArticleResponseEntity>

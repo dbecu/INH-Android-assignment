@@ -94,4 +94,8 @@ dependencies {
 
     //Coil
     implementation 'io.coil-kt:coil-compose:2.1.0'
+
+    //Swipe refresh
+    implementation "net.accelf.accompanist:accompanist-swiperefresh:0.23.0"
+
 }

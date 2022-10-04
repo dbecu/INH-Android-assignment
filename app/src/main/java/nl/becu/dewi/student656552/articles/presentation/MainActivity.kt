@@ -47,7 +47,8 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 ) { entry ->
-                    DetailScreen(articleId = entry.arguments?.getInt("articleId"), navController = navController)
+                    DetailScreen(articleId = entry.arguments?.getInt("articleId"), navController = navController, sharedPref = sharedPref
+                    )
                 }
                 
                 composable(

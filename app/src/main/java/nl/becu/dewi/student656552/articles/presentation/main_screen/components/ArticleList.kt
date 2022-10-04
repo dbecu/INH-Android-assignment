@@ -7,12 +7,16 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import nl.becu.dewi.student656552.articles.presentation.components.PageState
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 
@@ -23,8 +27,6 @@ fun ArticleList(
 ) {
 
     val state = viewModel.state.value
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -33,16 +35,17 @@ fun ArticleList(
             val item = state.articles[i]
             if (i >= state.articles.size - 1 &&
                 !state.endReached &&
-                !state.isLoading) {
+                !state.isLoading
+            ) {
                 viewModel.loadNextItems()
             }
 
             ArticleTab(article = item, navController = navController)
         }
 
-        item{
+        item {
             if (state.isLoading) {
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(8.dp),
@@ -52,5 +55,6 @@ fun ArticleList(
                 }
             }
         }
+
     }
 }

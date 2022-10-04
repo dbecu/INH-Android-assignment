@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
 import nl.becu.dewi.student656552.articles.domain.util.DefaultPaginator
@@ -51,6 +54,11 @@ class MainViewModel @Inject constructor(
             paginator.loadNextItems()
         }
     }
+
+    fun reset(){
+        paginator.reset()
+    }
+
 
     /*
     private val _state = mutableStateOf(MainState())

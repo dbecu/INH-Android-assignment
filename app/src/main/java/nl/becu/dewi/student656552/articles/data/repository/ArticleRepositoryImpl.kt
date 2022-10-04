@@ -67,7 +67,8 @@ class ArticleRepositoryImpl(
                 } else {
                     return Result.success(likedArticles).getOrThrow()
                 }
-            } else -> {
+            }
+            else -> {
                 throw Exception() //TODO
             }
         }
