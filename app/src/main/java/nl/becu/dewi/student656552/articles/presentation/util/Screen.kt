@@ -5,6 +5,8 @@ sealed class Screen(val route: String) {
     object DetailScreen: Screen("detail_screen")
     object LoginScreen: Screen("login_screen")
     object LogoutScreen: Screen("logout_screen")
+    object RegisterScreen: Screen("register_screen")
+    object FavScreen: Screen("fav_screen")
 
     fun withOptionalAuthArgs(vararg args: String?): String {
         return buildString{

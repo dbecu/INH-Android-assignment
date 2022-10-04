@@ -79,7 +79,8 @@ class AppModule {
         return ArticleUseCases(
             getArticle = GetArticle(repository),
             getNextId = GetNextId(repository),
-            getResultArticles = GetResultArticles(repository)
+            getResultArticles = GetResultArticles(repository),
+            getLikedArticles = GetLikedArticles(repository)
         )
     }
 
@@ -87,7 +88,8 @@ class AppModule {
     @Singleton
     fun provideUserUseCases(repository: UserRepository): UserUseCase {
         return UserUseCase(
-            login = Login(repository)
+            login = Login(repository),
+            register = Register(repository)
         )
     }
 }

@@ -9,6 +9,7 @@ interface ArticleRepository {
 
     suspend fun getNextId(startingIndex: Int, pageSize: Int): Int
 
-    suspend fun getLikedArticles(authToken: String): List<Int>
+    suspend fun getLikedArticles(authToken: String): List<Article>
+
 
 }

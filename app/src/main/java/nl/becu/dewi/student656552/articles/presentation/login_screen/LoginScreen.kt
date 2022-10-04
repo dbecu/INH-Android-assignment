@@ -55,14 +55,7 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, 
 
         //BUtton login
         Button(onClick = {
-            viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
-
-            sharedPref?.edit()?.apply {    //TODO: do a check
-                putString("userName", viewModel.userName.value.text)
-                putString("password", viewModel.password.value.text)
-                putString("authToken", viewModel.authToken.value.text)
-                apply()
-            }
+            viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text, sharedPref = sharedPref))
             navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text)) //if all goes good
             //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {
@@ -73,7 +66,7 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, 
         ClickableText(
             text = AnnotatedString("Register"),
             onClick = {
-                //viewModel.onEvent()
+                navController.navigate(Screen.RegisterScreen.route)
             })
     }
 

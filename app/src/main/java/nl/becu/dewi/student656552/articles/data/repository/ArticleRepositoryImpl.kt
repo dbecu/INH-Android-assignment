@@ -56,9 +56,9 @@ class ArticleRepositoryImpl(
         }
     }
 
-    override suspend fun getLikedArticles(authToken: String): List<Int> {
+    override suspend fun getLikedArticles(authToken: String): List<Article> {
         val response = api.getLikedArticles(authToken)
-        val likedArticles = mapper.mapResponseEntityToLikedIds(response.body()) //TODO .body aint good i think
+        val likedArticles = mapper.mapResponseEntityToArticles(response.body()) //TODO .body aint good i think
 
         when {
             response.isSuccessful -> {

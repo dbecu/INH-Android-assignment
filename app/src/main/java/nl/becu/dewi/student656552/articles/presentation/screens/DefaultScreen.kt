@@ -33,7 +33,8 @@ fun DefaultScreen(
 ) {
     var isLoggedIn = false
     if (sharedPref != null) {
-        isLoggedIn = sharedPref.getString("authToken", null) != null
+        val token = sharedPref.getString("authToken", null)
+        isLoggedIn = !token.isNullOrBlank()
     }
 
     Scaffold(
@@ -99,7 +100,7 @@ fun BottomBar(navController: NavController, isLoggedIn: Boolean = false) {
                 selected = (selectedIndex.value == 2),
                 onClick = {
                     selectedIndex.value = 2
-                    navController.navigate(route = Screen.LoginScreen.route)
+                    navController.navigate(route = Screen.FavScreen.route)
                 })
         }
     }

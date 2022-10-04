@@ -42,14 +42,6 @@ class MainViewModel @Inject constructor(
         }
     )
 
-    fun init(authToken: String) {
-        viewModelScope.launch {
-            _state.value = state.value.copy(
-                authToken = authToken
-            )
-        }
-    }
-
     init{
         loadNextItems()
     }

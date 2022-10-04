@@ -15,10 +15,9 @@ interface UserApi {
         @Body body: AccountCredentials
     ) : Response<LoginResponse>
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @POST("register")
     suspend fun register(
-        @Field("UserName") userName: String,
-        @Field("Password") password: String
+        @Body body: AccountCredentials
     ) : Response<RegisterModel>
 }

@@ -15,9 +15,11 @@ import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import nl.becu.dewi.student656552.articles.presentation.util.Navigation
 import nl.becu.dewi.student656552.articles.presentation.detail_screen.DetailScreen
+import nl.becu.dewi.student656552.articles.presentation.fav_screen.FavScreen
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginScreen
 import nl.becu.dewi.student656552.articles.presentation.logout_screen.LogoutScreen
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainScreen
+import nl.becu.dewi.student656552.articles.presentation.register_screen.RegisterScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 import java.util.prefs.Preferences
 
@@ -56,6 +58,16 @@ class MainActivity : ComponentActivity() {
                 composable(
                     route = Screen.LogoutScreen.route
                 ) { LogoutScreen(navController = navController, sharedPref = sharedPref)
+                }
+
+                composable(
+                    route = Screen.RegisterScreen.route
+                ) { RegisterScreen(navController = navController, sharedPref = sharedPref)
+                }
+
+                composable(
+                    route = Screen.FavScreen.route
+                ) { FavScreen(navController = navController, sharedPref = sharedPref)
                 }
             }
         }

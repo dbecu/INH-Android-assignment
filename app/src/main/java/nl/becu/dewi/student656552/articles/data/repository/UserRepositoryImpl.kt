@@ -20,6 +20,12 @@ class UserRepositoryImpl(
     }
 
     override suspend fun register(userName: String, password: String): RegisterModel {
-        TODO("Not yet implemented")
+        try {
+            val response = api.register(AccountCredentials(userName, password)).body()
+            return response ?: throw Exception() //TODO
+        } catch(e: Exception)
+        {
+            throw e
+        }
     }
 }
