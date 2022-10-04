@@ -1,5 +1,6 @@
 package nl.becu.dewi.student656552.articles.presentation.screens
 
+import android.content.SharedPreferences
 import android.util.Log.d
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,9 +28,14 @@ fun DefaultScreen(
     navigationTitle: String = "Triple newspaper",
     haveBackButton: Boolean = true,
     navController: NavController,
-    isLoggedIn: Boolean = false,
+    sharedPref: SharedPreferences?,
     content: @Composable() () -> Unit
 ) {
+    var isLoggedIn = false
+    if (sharedPref != null) {
+        isLoggedIn = sharedPref.getString("authToken", null) != null
+    }
+
     Scaffold(
         topBar = { TopBar(navigationTitle, haveBackButton, navController) },
         bottomBar = { BottomBar(navController, isLoggedIn = isLoggedIn) }
@@ -78,7 +84,11 @@ fun BottomBar(navController: NavController, isLoggedIn: Boolean = false) {
             selected = (selectedIndex.value == 1),
             onClick = {
                 selectedIndex.value = 1
-                navController.navigate(route = Screen.LoginScreen.route)
+                if (isLoggedIn) {
+                    navController.navigate(route = Screen.LogoutScreen.route)
+                } else {
+                    navController.navigate(route = Screen.LoginScreen.route)
+                }
             })
 
         if (isLoggedIn) {

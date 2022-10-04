@@ -1,5 +1,6 @@
 package nl.becu.dewi.student656552.articles.presentation.detail_screen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -29,7 +30,9 @@ import java.time.format.DateTimeFormatter
 fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     navController: NavController,
-    articleId: Int?) {
+    articleId: Int?,
+    sharedPref: SharedPreferences? = null
+) {
 
     if (articleId == null)
     {
@@ -43,7 +46,7 @@ fun DetailScreen(
 
     val state = viewModel.state.value
     state.article?.Title?.let {
-        DefaultScreen(navController = navController, navigationTitle = it) {
+        DefaultScreen(navController = navController, navigationTitle = it, sharedPref = sharedPref) {
             DetailScreenContent(state.article)
         }
     }

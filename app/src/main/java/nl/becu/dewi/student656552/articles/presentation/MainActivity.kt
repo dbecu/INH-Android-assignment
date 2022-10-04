@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import nl.becu.dewi.student656552.articles.presentation.util.Navigation
 import nl.becu.dewi.student656552.articles.presentation.detail_screen.DetailScreen
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginScreen
+import nl.becu.dewi.student656552.articles.presentation.logout_screen.LogoutScreen
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 import java.util.prefs.Preferences
@@ -28,30 +29,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val sharedPref = getSharedPreferences("user_cred", Context.MODE_PRIVATE)
-            val editor = sharedPref.edit()
-
-            editor.apply{
-                putString("name", "DewiUser")
-                apply()
-            }
-
-            val name = sharedPref.getString("name", null)
 
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Screen.MainScreen.route + "?authToken={authToken}") {
+            NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
                 composable(
-                    route = Screen.MainScreen.route + "?authToken={authToken}",
-                    arguments = listOf(
-                        navArgument("authToken") {
-                            type = NavType.StringType
-                            nullable = true
-                            defaultValue = null
-                        }
-
-                    )
-                ) { entry ->
-                    MainScreen(navController = navController, sharedPref = sharedPref)
-                }
+                    route = Screen.MainScreen.route) {
+                    MainScreen(navController = navController, sharedPref = sharedPref) }
 
                 composable(
                     route = Screen.DetailScreen.route + "/{articleId}",
@@ -69,9 +52,12 @@ class MainActivity : ComponentActivity() {
                     route = Screen.LoginScreen.route
                 ) { LoginScreen(navController = navController, sharedPref = sharedPref)
                 }
+
+                composable(
+                    route = Screen.LogoutScreen.route
+                ) { LogoutScreen(navController = navController, sharedPref = sharedPref)
+                }
             }
-
-
         }
     }
 }

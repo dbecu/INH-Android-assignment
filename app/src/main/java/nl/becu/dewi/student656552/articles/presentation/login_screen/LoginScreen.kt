@@ -21,21 +21,16 @@ import nl.becu.dewi.student656552.articles.presentation.util.Screen
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
-    sharedPref: SharedPreferences
+    sharedPref: SharedPreferences? = null
 ){
-    val userName = viewModel.userName
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
-
-    DefaultScreen(navController = navController) {
+    DefaultScreen(navController = navController, sharedPref = sharedPref) {
         LoginScreenContent(viewModel, navController, sharedPref = sharedPref)
     }
 }
 
 @Composable
-fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, sharedPref: SharedPreferences){
+fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, sharedPref: SharedPreferences?){
     Column(Modifier.padding(16.dp)) {
-
 
         //User name
         var userNameText by remember { mutableStateOf(viewModel.userName.value.text) }
@@ -62,7 +57,7 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, 
         Button(onClick = {
             viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
 
-            sharedPref.edit().apply{    //TODO: do a check
+            sharedPref?.edit()?.apply {    //TODO: do a check
                 putString("userName", viewModel.userName.value.text)
                 putString("password", viewModel.password.value.text)
                 putString("authToken", viewModel.authToken.value.text)

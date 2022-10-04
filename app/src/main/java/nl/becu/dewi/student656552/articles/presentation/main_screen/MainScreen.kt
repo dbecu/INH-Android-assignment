@@ -24,13 +24,7 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
     sharedPref: SharedPreferences? = null
 ) {
-
-    var isLoggedIn = false
-    if (sharedPref != null) {
-        isLoggedIn = sharedPref.getString("authToken", null) != null
-    }
-
-    DefaultScreen(navController = navController, haveBackButton = false, isLoggedIn = isLoggedIn) {
+    DefaultScreen(navController = navController, haveBackButton = false, sharedPref = sharedPref) {
         ArticleList(viewModel = viewModel, navController = navController)
     }
 }
