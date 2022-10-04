@@ -4,6 +4,7 @@ import nl.becu.dewi.student656552.articles.data.data_source.ArticleApi
 import nl.becu.dewi.student656552.articles.data.mapper.ArticleMapper
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.domain.models.ArticleResponse
+import nl.becu.dewi.student656552.articles.domain.models.exceptions.ArticleException
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -71,6 +72,29 @@ class ArticleRepositoryImpl(
             else -> {
                 throw Exception() //TODO
             }
+        }
+    }
+
+    override suspend fun getArticlesByStartingWithAuth(
+        startingIndex: Int,
+        pageSize: Int,
+        authToken: String
+    ): Result<List<Article>> {
+        val response = api.getArticlesByStartingWithAuth(startingIndex, pageSize, authToken)
+        val articles = mapper.mapResponseEntityToArticles(response.body())
+
+        when {
+            response.isSuccessful -> {
+                if (articles.isEmpty()) {
+                    throw Exception() //TODO
+                } else {
+                    return Result.success(articles)
+                }
+            }
+            else -> {
+                throw ArticleException("Auth token expired") //TODO
+            }
+
         }
     }
 

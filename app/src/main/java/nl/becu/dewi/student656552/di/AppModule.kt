@@ -80,7 +80,8 @@ class AppModule {
             getArticle = GetArticle(repository),
             getNextId = GetNextId(repository),
             getResultArticles = GetResultArticles(repository),
-            getLikedArticles = GetLikedArticles(repository)
+            getLikedArticles = GetLikedArticles(repository),
+            getAllArticlesWithLike = GetAllArticlesWithLike(repository)
         )
     }
 

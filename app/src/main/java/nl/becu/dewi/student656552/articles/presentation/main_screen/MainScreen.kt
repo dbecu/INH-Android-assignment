@@ -24,6 +24,9 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
     sharedPref: SharedPreferences? = null
 ) {
+
+    viewModel.setAuthToken(sharedPref?.getString("authToken", null) ?: "")
+
     DefaultScreen(navController = navController, haveBackButton = false, sharedPref = sharedPref) {
         ArticleList(viewModel = viewModel, navController = navController)
     }

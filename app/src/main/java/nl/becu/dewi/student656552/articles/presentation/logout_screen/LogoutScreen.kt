@@ -19,7 +19,7 @@ fun LogoutScreen(
     navController: NavController,
     sharedPref: SharedPreferences? = null
 ){
-    DefaultScreen(navController = navController, sharedPref = sharedPref) {
+    DefaultScreen(navController = navController, sharedPref = sharedPref, haveBackButton = false) {
         //Logout
         Button(onClick = {
             sharedPref?.edit()?.apply {    //TODO: do a check

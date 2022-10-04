@@ -23,6 +23,14 @@ interface ArticleApi {
         @Query("count") amount: Int
     ): Response<ArticleResponseEntity>
 
+    @Headers("Content-Type: application/json")
+    @GET("{articleID}")
+    suspend fun getArticlesByStartingWithAuth(
+        @Path("articleID") id: Int,
+        @Query("count") amount: Int,
+        @Header("x-authtoken") token: String,
+        ): Response<ArticleResponseEntity>
+
 
     @Headers("Content-Type: application/json")
     @GET("liked")

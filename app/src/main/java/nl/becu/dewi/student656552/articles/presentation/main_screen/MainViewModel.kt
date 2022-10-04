@@ -28,7 +28,11 @@ class MainViewModel @Inject constructor(
             _state.value = _state.value.copy(isLoading = it)
         },
         onRequest = { nextPage ->
+            if (state.value.authToken == null) {
             articleUseCases.getResultArticles(nextPage, 20)
+            } else {
+                articleUseCases.getAllArticlesWithLike(nextPage, 20, state.value.authToken!!)
+            }
         },
         getNextKey = { nextPage ->
             articleUseCases.getNextId(nextPage, 20)
@@ -57,6 +61,11 @@ class MainViewModel @Inject constructor(
 
     fun reset(){
         paginator.reset()
+    }
+
+    fun setAuthToken(authToken: String){
+        _state.value = _state.value.copy(
+            authToken = authToken)
     }
 
 

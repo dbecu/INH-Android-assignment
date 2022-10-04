@@ -11,5 +11,7 @@ interface ArticleRepository {
 
     suspend fun getLikedArticles(authToken: String): List<Article>
 
+    suspend fun getArticlesByStartingWithAuth(startingIndex: Int, pageSize: Int, authToken: String): Result<List<Article>>
+
 
 }

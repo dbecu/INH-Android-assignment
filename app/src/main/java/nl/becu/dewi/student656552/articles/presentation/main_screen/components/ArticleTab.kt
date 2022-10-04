@@ -2,17 +2,19 @@ package nl.becu.dewi.student656552.articles.presentation.main_screen.components
 
 import android.R.id
 import android.content.Intent
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat.startActivityForResult
@@ -21,15 +23,17 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.domain.models.Article
+import nl.becu.dewi.student656552.articles.domain.models.Category
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 import java.security.AccessController.getContext
-
+import java.time.LocalDate
+import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ArticleTab(
     article: Article,
-    navController: NavController
+    navController: NavController?
 ) {
 
     Card(
@@ -37,11 +41,12 @@ fun ArticleTab(
             .fillMaxWidth()
             .padding(8.dp),
         onClick = {
-            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
+            navController?.navigate(Screen.DetailScreen.withArgs(article.Id))
         }
     ){
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             AsyncImage(
@@ -53,13 +58,21 @@ fun ArticleTab(
                 placeholder = painterResource(R.drawable.default_image_thumbnail)
             )
 
-
             Text(
                 text = article.Title,
                 fontSize = 16.sp,
                 modifier = Modifier
                     .padding(4.dp)
             )
+
+            Icon(
+                imageVector = if (article.IsLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                contentDescription = "Heart",
+                modifier = Modifier
+                    .padding(4.dp)
+                    .weight(1f)
+            )
+
         }
     }
 

@@ -24,7 +24,7 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
     sharedPref: SharedPreferences? = null
 ) {
-    DefaultScreen(navController = navController, sharedPref = sharedPref) {
+    DefaultScreen(navController = navController, sharedPref = sharedPref, haveBackButton = false) {
         Column() {
             var userNameText by remember { mutableStateOf(viewModel.userName.value.text) }
             OutlinedTextField(

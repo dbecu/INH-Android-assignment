@@ -23,7 +23,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     sharedPref: SharedPreferences? = null
 ){
-    DefaultScreen(navController = navController, sharedPref = sharedPref) {
+    DefaultScreen(navController = navController, sharedPref = sharedPref, haveBackButton = false) {
         LoginScreenContent(viewModel, navController, sharedPref = sharedPref)
     }
 }
