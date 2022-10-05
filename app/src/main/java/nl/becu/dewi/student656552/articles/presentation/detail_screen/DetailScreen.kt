@@ -11,8 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
@@ -66,17 +65,24 @@ fun DetailScreen(
 @Composable
 private fun FloatingButton(isLiked: Boolean, viewModel: DetailViewModel){
     val state = viewModel.state
+    var iconFaved by remember {
+        mutableStateOf(isLiked)
+    }
 
     FloatingActionButton(
         onClick = {
-            if (isLiked) {
+            if (iconFaved) {
                 viewModel.onEvent(DetailEvent.DeleteArticleLike(state.value.article?.Id ?: 1, state.value.authToken ?: "")) //TODO change
             } else {
                 viewModel.onEvent(DetailEvent.PutArticleLike(state.value.article?.Id ?: 1, state.value.authToken ?: "")) //TODO change
-          }
+            }
+            iconFaved = !iconFaved
         }
     ){
-        Icon(if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder, "")
+        Icon(
+            if (iconFaved) Icons.Default.Favorite else Icons.Default.FavoriteBorder, ""
+        )
+
     }
 }
 

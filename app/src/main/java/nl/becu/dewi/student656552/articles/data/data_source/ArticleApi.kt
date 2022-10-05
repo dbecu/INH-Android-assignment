@@ -12,10 +12,12 @@ interface ArticleApi {
         @Query("count") amount: Int
     ): Response<ArticleResponseEntity>
 
+    @Headers("Content-Type: application/json")
     @GET("{articleID}")
     suspend fun getArticleById(
-        @Path("articleID") id: Int
-    ): Response<ArticleResponseEntity>
+        @Path("articleID") id: Int,
+        @Header("x-authtoken") token: String?,
+        ): Response<ArticleResponseEntity>
 
     @GET("{articleID}")
     suspend fun getArticlesByStartingWith(

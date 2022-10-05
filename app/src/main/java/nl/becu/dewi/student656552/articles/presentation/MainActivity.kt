@@ -21,6 +21,10 @@ import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesMa
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    //TODO cleanup share preferenced residue
+    //TODO change api call of getting all liked articles
+
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

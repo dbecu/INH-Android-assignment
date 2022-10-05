@@ -3,7 +3,7 @@ package nl.becu.dewi.student656552.articles.domain.repository
 import nl.becu.dewi.student656552.articles.domain.models.Article
 
 interface ArticleRepository {
-    suspend fun getArticleById(id: Int): Article
+    suspend fun getArticleById(id: Int, authToken: String?): Article
 
     suspend fun getResultArticles(startingIndex: Int, pageSize: Int): Result<List<Article>>
 

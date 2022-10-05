@@ -1,19 +1,16 @@
 package nl.becu.dewi.student656552.articles.presentation.detail_screen
 
+import android.graphics.drawable.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import nl.becu.dewi.student656552.articles.domain.models.Article
-import nl.becu.dewi.student656552.articles.domain.models.ArticleEntity
 import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
-import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent
-import nl.becu.dewi.student656552.articles.presentation.main_screen.MainState
-import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +19,8 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = mutableStateOf(DetailState(
-        authToken = ""
+        authToken = "",
+        isFavedIcon = false
     ))
     val state: State<DetailState> = _state
 
@@ -60,7 +58,7 @@ class DetailViewModel @Inject constructor(
 
     fun init(articleId: Int) {
         viewModelScope.launch {
-            val article = articleUseCases.getArticle(articleId)
+            val article = articleUseCases.getArticle(articleId, SharedPreferencesManager.getAuthToken())
             _state.value = state.value.copy(article)
         }
     }

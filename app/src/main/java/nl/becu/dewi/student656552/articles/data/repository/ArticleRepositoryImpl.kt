@@ -35,8 +35,8 @@ class ArticleRepositoryImpl(
     }
 
     // TODO: CHANGE THIS LOGIC IS IN THE WRONG LAYER
-    override suspend fun getArticleById(id: Int): Article {
-        val articleResponse = api.getArticleById(id)
+    override suspend fun getArticleById(id: Int, authToken: String?): Article {
+        val articleResponse = api.getArticleById(id, authToken)
         return articleResponse.body()?.let { mapper.mapFirstArticle(it).getOrThrow() } ?: throw Exception() //TODO
     }
 

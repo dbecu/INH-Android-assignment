@@ -8,9 +8,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
@@ -28,16 +26,14 @@ fun DefaultScreen(
     floatButton: (@Composable() () -> Unit)? = null,
     content: @Composable() () -> Unit
 ) {
-
-    val isLoggedIn = !SharedPreferencesManager.getAuthToken().isNullOrBlank()
+    val authToken = SharedPreferencesManager.authTokenState
 
     val lifecycleState = LocalLifecycleOwner.current.lifecycle.observeAsState()
     val state = lifecycleState.value
 
-
     Scaffold(
         topBar = { TopBar(navigationTitle, haveBackButton, navController) },
-        bottomBar = { BottomBar(navController, isLoggedIn = isLoggedIn) },
+        bottomBar = { BottomBar(navController, isLoggedIn = authToken.value != "") },
         floatingActionButton = { floatButton?.let { it() } },
         scaffoldState = scaffoldState
     ) { innerPadding ->

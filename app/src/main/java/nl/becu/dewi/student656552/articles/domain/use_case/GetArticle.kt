@@ -7,8 +7,8 @@ class GetArticle(
     private val repository: ArticleRepository
 ) {
 
-    suspend operator fun invoke(id: Int): Article {
-        return repository.getArticleById(id)
+    suspend operator fun invoke(id: Int, authToken: String?): Article {
+        return repository.getArticleById(id, authToken)
     }
 
 
