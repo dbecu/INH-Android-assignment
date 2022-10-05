@@ -1,23 +1,30 @@
 package nl.becu.dewi.student656552.articles.presentation.detail_screen
 
 import android.content.SharedPreferences
+import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle.Companion.Italic
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -93,24 +100,37 @@ private fun DetailScreenContent(
     val uriHandler = LocalUriHandler.current
     val dateFormat = SimpleDateFormat("yyyy-mm-dd")
 
-    Column() {
+    Column(Modifier.verticalScroll(rememberScrollState()).fillMaxWidth()) {
         article?.let {
-            AsyncImage(
-                model = it.Image,
-                contentDescription = "Image of news item",
-                modifier = Modifier
-                    .size(64.dp)
-                    .padding(4.dp),
-                placeholder = painterResource(R.drawable.default_image_thumbnail)
-            )
-            Text(it.Title)
+
+            Row() {
+                AsyncImage(
+                    model = it.Image,
+                    contentDescription = "Image of news item",
+                    modifier = Modifier
+                        .size(120.dp)
+                        .padding(4.dp),
+                    placeholder = painterResource(R.drawable.default_image_thumbnail)
+                )
+                Text(
+                    text = it.Title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(modifier = Modifier.padding(16.dp))
             Text(it.Summary)
+
+            Spacer(modifier = Modifier.padding(16.dp))
             Text(modifier = Modifier.clickable {
                 uriHandler.openUri(it.Url) //TODO: What does it mean, must reside behind a clickable view?
             },
             text = "Link to article")
+
+            Spacer(modifier = Modifier.padding(16.dp))
             Text(dateFormat.format(it.PublishDate))
 
+            Spacer(modifier = Modifier.padding(16.dp))
             Text("Related content")
             for(article in it.Related){
                 Text(modifier = Modifier.clickable {
@@ -119,6 +139,7 @@ private fun DetailScreenContent(
                     text = article)
             }
 
+            Spacer(modifier = Modifier.padding(16.dp))
             Text("Categories")
             for(category in it.Categories){
                 Text(category.Name)
