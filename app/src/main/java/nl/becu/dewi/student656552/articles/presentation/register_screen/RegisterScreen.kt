@@ -21,10 +21,9 @@ import nl.becu.dewi.student656552.articles.presentation.util.Screen
 @Composable
 fun RegisterScreen(
     navController: NavController,
-    viewModel: RegisterViewModel = hiltViewModel(),
-    sharedPref: SharedPreferences? = null
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    DefaultScreen(navController = navController, sharedPref = sharedPref, haveBackButton = false) {
+    DefaultScreen(navController = navController, haveBackButton = false) {
         Column() {
             var userNameText by remember { mutableStateOf(viewModel.userName.value.text) }
             OutlinedTextField(
@@ -56,12 +55,6 @@ fun RegisterScreen(
                         viewModel.password.value.text
                     )
                 )
-
-                sharedPref?.edit()?.apply {    //TODO: do a check
-                    putString("userName", viewModel.userName.value.text)
-                    apply()
-                }
-
                 navController.navigate(Screen.LoginScreen.route)
 
             }) {

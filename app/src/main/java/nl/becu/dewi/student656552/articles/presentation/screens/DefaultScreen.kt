@@ -1,11 +1,6 @@
 package nl.becu.dewi.student656552.articles.presentation.screens
 
-import android.content.SharedPreferences
-import android.util.Log.d
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,12 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import nl.becu.dewi.student656552.articles.presentation.util.observeAsState
 
 @Composable
@@ -30,16 +24,12 @@ fun DefaultScreen(
     navigationTitle: String = "Triple newspaper",
     haveBackButton: Boolean = true,
     navController: NavController,
-    sharedPref: SharedPreferences?,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     floatButton: (@Composable() () -> Unit)? = null,
     content: @Composable() () -> Unit
 ) {
-    var isLoggedIn = false
-    if (sharedPref != null) {
-        val token = sharedPref.getString("authToken", null)
-        isLoggedIn = !token.isNullOrBlank()
-    }
+
+    val isLoggedIn = !SharedPreferencesManager.getAuthToken().isNullOrBlank()
 
     val lifecycleState = LocalLifecycleOwner.current.lifecycle.observeAsState()
     val state = lifecycleState.value

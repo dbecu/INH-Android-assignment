@@ -3,7 +3,9 @@ package nl.becu.dewi.student656552.articles.presentation.main_screen.components
 import android.R.id
 import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -46,9 +48,18 @@ fun ArticleTab(
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+
         ) {
 
+            Icon(
+                imageVector = if (article.IsLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                contentDescription = "Heart",
+                modifier = Modifier
+                    .padding(4.dp)
+            )
             AsyncImage(
                 model = article.Image,
                 contentDescription = "Image of news item",
@@ -58,6 +69,7 @@ fun ArticleTab(
                 placeholder = painterResource(R.drawable.default_image_thumbnail)
             )
 
+
             Text(
                 text = article.Title,
                 fontSize = 16.sp,
@@ -65,13 +77,6 @@ fun ArticleTab(
                     .padding(4.dp)
             )
 
-            Icon(
-                imageVector = if (article.IsLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = "Heart",
-                modifier = Modifier
-                    .padding(4.dp)
-                    .weight(1f)
-            )
 
         }
     }

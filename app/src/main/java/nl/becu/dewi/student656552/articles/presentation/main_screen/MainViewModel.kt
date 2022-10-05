@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
 import nl.becu.dewi.student656552.articles.domain.util.DefaultPaginator
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,10 +29,11 @@ class MainViewModel @Inject constructor(
             _state.value = _state.value.copy(isLoading = it)
         },
         onRequest = { nextPage ->
-            if (state.value.authToken == null) {
-            articleUseCases.getResultArticles(nextPage, 20)
+            val authToken = SharedPreferencesManager.getAuthToken()
+            if (authToken.isNullOrBlank()) {
+                articleUseCases.getResultArticles(nextPage, 20)
             } else {
-                articleUseCases.getAllArticlesWithLike(nextPage, 20, state.value.authToken!!)
+                articleUseCases.getAllArticlesWithLike(nextPage, 20, authToken)
             }
         },
         getNextKey = { nextPage ->
@@ -63,10 +65,6 @@ class MainViewModel @Inject constructor(
         paginator.reset()
     }
 
-    fun setAuthToken(authToken: String){
-        _state.value = _state.value.copy(
-            authToken = authToken)
-    }
 
 
     /*

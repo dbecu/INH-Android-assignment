@@ -2,6 +2,7 @@ package nl.becu.dewi.student656552.di
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -95,4 +96,5 @@ class AppModule {
             register = Register(repository)
         )
     }
+
 }

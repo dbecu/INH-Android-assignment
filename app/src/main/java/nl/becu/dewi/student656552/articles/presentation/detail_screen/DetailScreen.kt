@@ -27,6 +27,7 @@ import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -35,8 +36,7 @@ import java.time.format.DateTimeFormatter
 fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     navController: NavController,
-    articleId: Int?,
-    sharedPref: SharedPreferences? = null
+    articleId: Int?
 ) {
 
     if (articleId == null)
@@ -47,12 +47,12 @@ fun DetailScreen(
 
     LaunchedEffect(articleId) {
         viewModel.init(articleId)
-        viewModel.onEvent(DetailEvent.GetAuthToken(sharedPref?.getString("authToken", null) ?: ""))
+        viewModel.onEvent(DetailEvent.GetAuthToken(SharedPreferencesManager.getAuthToken()))
     }
 
     val state = viewModel.state.value
     state.article?.Title?.let {
-        DefaultScreen(navController = navController, navigationTitle = it, sharedPref = sharedPref, floatButton = {
+        DefaultScreen(navController = navController, navigationTitle = it, floatButton = {
             FloatingButton(
                 isLiked = state.article.IsLiked,
                 viewModel = viewModel
@@ -70,9 +70,9 @@ private fun FloatingButton(isLiked: Boolean, viewModel: DetailViewModel){
     FloatingActionButton(
         onClick = {
             if (isLiked) {
-                viewModel.onEvent(DetailEvent.DeleteArticleLike(state.value.article?.Id ?: 1, state.value.authToken))
+                viewModel.onEvent(DetailEvent.DeleteArticleLike(state.value.article?.Id ?: 1, state.value.authToken ?: "")) //TODO change
             } else {
-                viewModel.onEvent(DetailEvent.PutArticleLike(state.value.article?.Id ?: 1, state.value.authToken))
+                viewModel.onEvent(DetailEvent.PutArticleLike(state.value.article?.Id ?: 1, state.value.authToken ?: "")) //TODO change
           }
         }
     ){

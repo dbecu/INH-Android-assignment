@@ -16,16 +16,14 @@ import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
 @Composable
 fun FavScreen(
     navController: NavController,
-    viewModel: FavViewModel = hiltViewModel(),
-    sharedPref: SharedPreferences? = null
+    viewModel: FavViewModel = hiltViewModel()
 ) {
 
-    DefaultScreen(navController = navController, navigationTitle = "Favorites", haveBackButton = false, sharedPref = sharedPref) {
+    DefaultScreen(navController = navController, navigationTitle = "Favorites", haveBackButton = false) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
             val state = viewModel.state.value
-            viewModel.setAuthToken(sharedPref?.getString("authToken", null) ?: "")
             viewModel.init()
 
             for(item in viewModel.state.value.articles)

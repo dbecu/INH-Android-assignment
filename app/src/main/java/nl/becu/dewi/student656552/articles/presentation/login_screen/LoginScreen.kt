@@ -20,16 +20,15 @@ import nl.becu.dewi.student656552.articles.presentation.util.Screen
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel(),
-    sharedPref: SharedPreferences? = null
+    viewModel: LoginViewModel = hiltViewModel()
 ){
-    DefaultScreen(navController = navController, sharedPref = sharedPref, haveBackButton = false) {
-        LoginScreenContent(viewModel, navController, sharedPref = sharedPref)
+    DefaultScreen(navController = navController, haveBackButton = false) {
+        LoginScreenContent(viewModel, navController)
     }
 }
 
 @Composable
-fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, sharedPref: SharedPreferences?){
+fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
     Column(Modifier.padding(16.dp)) {
 
         //User name
@@ -55,7 +54,7 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController, 
 
         //BUtton login
         Button(onClick = {
-            viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text, sharedPref = sharedPref))
+            viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
             navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text)) //if all goes good
             //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {

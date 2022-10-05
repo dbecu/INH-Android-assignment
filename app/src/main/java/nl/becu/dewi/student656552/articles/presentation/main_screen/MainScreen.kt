@@ -21,13 +21,9 @@ import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
 @Composable
 fun MainScreen(
     navController: NavController,
-    viewModel: MainViewModel = hiltViewModel(),
-    sharedPref: SharedPreferences? = null
+    viewModel: MainViewModel = hiltViewModel()
 ) {
-
-    viewModel.setAuthToken(sharedPref?.getString("authToken", null) ?: "")
-
-    DefaultScreen(navController = navController, haveBackButton = false, sharedPref = sharedPref) {
+    DefaultScreen(navController = navController, haveBackButton = false) {
         ArticleList(viewModel = viewModel, navController = navController)
     }
 }

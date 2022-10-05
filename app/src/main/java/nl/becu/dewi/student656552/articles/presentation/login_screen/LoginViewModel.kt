@@ -10,6 +10,7 @@ import nl.becu.dewi.student656552.articles.domain.use_case.UserUseCase
 import javax.inject.Inject
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent.Login
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent.EnteredUsername
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 
 @HiltViewModel
 class LoginViewModel@Inject constructor(
@@ -55,12 +56,9 @@ class LoginViewModel@Inject constructor(
                         text = userUseCases.login(userName.value.text, password.value.text)
                     )
 
-                    event.sharedPref?.edit()?.apply {    //TODO: do a check
-                        putString("userName", userName.value.text)
-                        putString("password", password.value.text)
-                        putString("authToken", authToken.value.text)
-                        apply()
-                    }
+                    SharedPreferencesManager.setUsername(userName.value.text)
+                    SharedPreferencesManager.setPassword(password.value.text)
+                    SharedPreferencesManager.setAuthToken(authToken.value.text)
                 }
             }
 

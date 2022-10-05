@@ -12,7 +12,4 @@ data class MainState (
     val error: String? = null,
     val endReached: Boolean = false,
     val page: Int = 134067, //page index
-
-    //user
-    val authToken: String? = null
 )

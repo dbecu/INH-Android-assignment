@@ -11,6 +11,7 @@ import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
 import nl.becu.dewi.student656552.articles.domain.util.DefaultPaginator
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainState
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,23 +19,17 @@ class FavViewModel @Inject constructor(
     private val articleUseCases: ArticleUseCases
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(FavState(authToken = ""))
+    private val _state = mutableStateOf(FavState())
     val state: State<FavState> = _state
 
     fun init() {
         loadNextItems()
     }
 
-    fun setAuthToken(authToken: String) {
-        _state.value = state.value.copy(
-            authToken = authToken
-        )
-    }
-
     private fun loadNextItems() {
         viewModelScope.launch {
             _state.value = state.value.copy(
-                articles = articleUseCases.getLikedArticles.invoke(state.value.authToken))
+                articles = articleUseCases.getLikedArticles.invoke(SharedPreferencesManager.getAuthToken() ?: "")) //TODO change
         }
     }
 }

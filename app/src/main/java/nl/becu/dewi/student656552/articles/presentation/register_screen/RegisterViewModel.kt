@@ -10,6 +10,7 @@ import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
 import nl.becu.dewi.student656552.articles.domain.use_case.UserUseCase
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginTextFieldState
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,6 +46,7 @@ class RegisterViewModel @Inject constructor(
                 viewModelScope.launch {
                     _message.value = message.value.copy(
                         text = userUseCase.register(userName.value.text, password.value.text).Message)
+                    SharedPreferencesManager.setUsername(userName.value.text)
                 }
             }
         }

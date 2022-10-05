@@ -30,18 +30,22 @@ class DetailViewModel @Inject constructor(
         when (event) {
             is DetailEvent.PutArticleLike -> {
                 viewModelScope.launch {
-                    articleUseCases.putLikeArticle(
-                        state.value.article?.Id ?: 0,
-                        state.value.authToken
-                    )
+                    state.value.authToken?.let {
+                        articleUseCases.putLikeArticle(
+                            state.value.article?.Id ?: 0,
+                            it
+                        )
+                    }
                 }
             }
             is DetailEvent.DeleteArticleLike -> {
                 viewModelScope.launch {
-                    articleUseCases.deleteLikeArticle(
-                        state.value.article?.Id ?: 0,
-                        state.value.authToken
-                    )
+                    state.value.authToken?.let {
+                        articleUseCases.deleteLikeArticle(
+                            state.value.article?.Id ?: 0,
+                            it
+                        )
+                    }
                 }
             }
             is DetailEvent.GetAuthToken -> {
