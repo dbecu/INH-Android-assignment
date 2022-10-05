@@ -12,4 +12,6 @@ data class MainState (
     val error: String? = null,
     val endReached: Boolean = false,
     val page: Int = 134067, //page index
+
+    val load: Int = 20
 )

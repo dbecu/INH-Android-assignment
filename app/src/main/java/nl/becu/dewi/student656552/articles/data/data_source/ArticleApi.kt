@@ -7,11 +7,6 @@ import retrofit2.http.*
 
 interface ArticleApi {
 
-    @GET("")
-    suspend fun getArticles(
-        @Query("count") amount: Int
-    ): Response<ArticleResponseEntity>
-
     @Headers("Content-Type: application/json")
     @GET("{articleID}")
     suspend fun getArticleById(
@@ -19,25 +14,19 @@ interface ArticleApi {
         @Header("x-authtoken") token: String?,
         ): Response<ArticleResponseEntity>
 
+    @Headers("Content-Type: application/json")
     @GET("{articleID}")
-    suspend fun getArticlesByStartingWith(
+    suspend fun getArticles(
         @Path("articleID") id: Int,
-        @Query("count") amount: Int
+        @Query("count") amount: Int,
+        @Header("x-authtoken") token: String
     ): Response<ArticleResponseEntity>
 
     @Headers("Content-Type: application/json")
     @GET("{articleID}")
-    suspend fun getArticlesByStartingWithAuth(
+    suspend fun getArticles(
         @Path("articleID") id: Int,
-        @Query("count") amount: Int,
-        @Header("x-authtoken") token: String,
-        ): Response<ArticleResponseEntity>
-
-
-    @Headers("Content-Type: application/json")
-    @GET("liked")
-    suspend fun getLikedArticles(
-        @Header("x-authtoken") token: String,
+        @Query("count") amount: Int
     ): Response<ArticleResponseEntity>
 
     @Headers("Content-Type: application/json")

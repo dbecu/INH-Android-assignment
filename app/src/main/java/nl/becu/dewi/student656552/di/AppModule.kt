@@ -1,8 +1,6 @@
 package nl.becu.dewi.student656552.di
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +11,10 @@ import nl.becu.dewi.student656552.articles.data.repository.ArticleRepositoryImpl
 import nl.becu.dewi.student656552.articles.data.repository.UserRepositoryImpl
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
 import nl.becu.dewi.student656552.articles.domain.repository.UserRepository
-import nl.becu.dewi.student656552.articles.domain.use_case.*
+import nl.becu.dewi.student656552.articles.domain.use_case.article_use_case.*
+import nl.becu.dewi.student656552.articles.domain.use_case.user_use_case.Login
+import nl.becu.dewi.student656552.articles.domain.use_case.user_use_case.Register
+import nl.becu.dewi.student656552.articles.domain.use_case.user_use_case.UserUseCase
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -80,9 +81,7 @@ class AppModule {
         return ArticleUseCases(
             getArticle = GetArticle(repository),
             getNextId = GetNextId(repository),
-            getResultArticles = GetResultArticles(repository),
-            getLikedArticles = GetLikedArticles(repository),
-            getAllArticlesWithLike = GetAllArticlesWithLike(repository),
+            getArticles = GetArticles(repository),
             putLikeArticle = PutLikeArticle(repository),
             deleteLikeArticle = DeleteLikeArticle(repository)
         )

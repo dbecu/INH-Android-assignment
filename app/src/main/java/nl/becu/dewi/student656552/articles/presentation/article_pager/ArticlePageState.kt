@@ -1,4 +1,4 @@
-package nl.becu.dewi.student656552.articles.presentation.fav_screen
+package nl.becu.dewi.student656552.articles.presentation.article_pager
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

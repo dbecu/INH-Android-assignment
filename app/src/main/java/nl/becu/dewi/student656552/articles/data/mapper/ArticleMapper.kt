@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 
 class ArticleMapper {
 
-    val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
+    val dateFormatter = SimpleDateFormat("yyyy-mm-dd")
 
     fun mapArticleResponse(entity: ArticleResponseEntity): Result<ArticleResponse> = runCatching {
         with(entity) {

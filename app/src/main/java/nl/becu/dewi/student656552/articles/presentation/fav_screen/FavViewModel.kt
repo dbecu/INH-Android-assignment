@@ -8,14 +8,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import nl.becu.dewi.student656552.articles.domain.models.Article
-import nl.becu.dewi.student656552.articles.domain.use_case.ArticleUseCases
-import nl.becu.dewi.student656552.articles.domain.util.DefaultPaginator
-import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent
-import nl.becu.dewi.student656552.articles.presentation.main_screen.MainState
-import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
+import nl.becu.dewi.student656552.articles.domain.use_case.article_use_case.ArticleUseCases
+import nl.becu.dewi.student656552.articles.presentation.article_pager.ArticlePager
 import javax.inject.Inject
 //import androidx.paging.compose.collectAsLazyPagingItems
 
@@ -29,17 +23,18 @@ class FavViewModel @Inject constructor(
     val state: State<FavState> = _state
 
     val articles = Pager(PagingConfig(pageSize = 10)) {
-        ArticlePager(this)
+        ArticlePager(favViewModel = this)
     }.flow.cachedIn(viewModelScope)
 
-    fun init() {
-        loadNextItems()
+    fun setStartKey(startKey: Int) {
+        _state.value = state.value.copy(
+            startIndex = startKey
+        )
     }
 
-    private fun loadNextItems() {
-        viewModelScope.launch {
-            _state.value = state.value.copy(
-                articles = articleUseCases.getLikedArticles.invoke(SharedPreferencesManager.getAuthToken() ?: "")) //TODO change
-        }
+    fun setLoad(load: Int) {
+        _state.value = state.value.copy(
+            load = load
+        )
     }
 }

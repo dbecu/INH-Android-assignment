@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import nl.becu.dewi.student656552.articles.domain.use_case.UserUseCase
+import nl.becu.dewi.student656552.articles.domain.use_case.user_use_case.UserUseCase
 import javax.inject.Inject
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent.Login
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent.EnteredUsername
