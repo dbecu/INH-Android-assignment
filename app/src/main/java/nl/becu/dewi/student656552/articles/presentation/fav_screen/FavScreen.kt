@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.main_screen.components.ArticleList
 import nl.becu.dewi.student656552.articles.presentation.main_screen.components.ArticleTab
@@ -19,17 +21,21 @@ fun FavScreen(
     viewModel: FavViewModel = hiltViewModel()
 ) {
 
-    DefaultScreen(navController = navController, navigationTitle = "Favorites", haveBackButton = false) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val state = viewModel.state.value
-            viewModel.init()
 
-            for(item in viewModel.state.value.articles)
-                ArticleTab(article = item, navController = navController)
+    val articlePaging = viewModel.articles.collectAsLazyPagingItems()
+
+    DefaultScreen(navController = navController, navigationTitle = "Favorites", haveBackButton = false) {
+        LazyColumn {
+            items(articlePaging) {
+                if (it != null) {
+                    ArticleTab(article = it, navController = navController)
+                }
+            }
         }
     }
+
+
+
 
 }
 
