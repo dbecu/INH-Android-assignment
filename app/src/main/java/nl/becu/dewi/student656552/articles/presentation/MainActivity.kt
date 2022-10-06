@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,8 +20,10 @@ import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginScreen
 import nl.becu.dewi.student656552.articles.presentation.logout_screen.LogoutScreen
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainScreen
 import nl.becu.dewi.student656552.articles.presentation.register_screen.RegisterScreen
+import nl.becu.dewi.student656552.articles.presentation.util.Navigation
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
+import nl.becu.dewi.student656552.ui.theme.Student656552Theme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -29,44 +35,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SharedPreferencesManager.init(this)
+            Student656552Theme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
 
-            val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
-                composable(
-                    route = Screen.MainScreen.route) {
-                    MainScreen(navController = navController) }
+                    SharedPreferencesManager.init(this)
 
-                composable(
-                    route = Screen.DetailScreen.route + "/{articleId}",
-                    arguments = listOf(
-                        navArgument("articleId") {
-                            type = NavType.IntType
-                            nullable = false
-                        }
-                    )
-                ) { entry ->
-                    DetailScreen(articleId = entry.arguments?.getInt("articleId"), navController = navController)
-                }
-                
-                composable(
-                    route = Screen.LoginScreen.route
-                ) { LoginScreen(navController = navController)
-                }
-
-                composable(
-                    route = Screen.LogoutScreen.route
-                ) { LogoutScreen(navController = navController)
-                }
-
-                composable(
-                    route = Screen.RegisterScreen.route
-                ) { RegisterScreen(navController = navController)
-                }
-
-                composable(
-                    route = Screen.FavScreen.route
-                ) { FavScreen(navController = navController)
+                    val navController = rememberNavController()
+                    Navigation(navController)
                 }
             }
         }
