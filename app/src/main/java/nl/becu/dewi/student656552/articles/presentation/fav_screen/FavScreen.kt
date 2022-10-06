@@ -44,7 +44,7 @@ fun FavScreen(
 
 
             items(articlePaging) {
-                if (it != null && it.IsLiked) {
+                if (it != null) {
                     ArticleTab(article = it, navController = navController)
                 }
             }

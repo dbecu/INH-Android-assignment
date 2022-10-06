@@ -65,7 +65,7 @@ class DetailViewModel @Inject constructor(
                 is Resource.Success -> {}
                 is Resource.Error -> {
                     _state.value = state.value.copy(
-                        error = article.message
+                        //error = article.message TODO
                     )
                 }
 

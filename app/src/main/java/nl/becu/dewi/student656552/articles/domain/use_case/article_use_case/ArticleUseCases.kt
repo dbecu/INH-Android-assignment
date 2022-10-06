@@ -4,6 +4,7 @@ data class ArticleUseCases (
     val getArticle: GetArticle,
     val getArticles: GetArticles,
     val getNextId: GetNextId,
+    val getArticleResponse: GetArticleResponse,
     val putLikeArticle: PutLikeArticle,
     val deleteLikeArticle: DeleteLikeArticle
 )

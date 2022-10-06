@@ -1,14 +1,19 @@
 package nl.becu.dewi.student656552.articles.data.repository
 
+import androidx.compose.ui.res.stringResource
+import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.data.data_source.ArticleApi
 import nl.becu.dewi.student656552.articles.data.mapper.ArticleMapper
 import nl.becu.dewi.student656552.articles.domain.models.Article
+import nl.becu.dewi.student656552.articles.domain.models.ArticleResponse
 import nl.becu.dewi.student656552.articles.domain.models.ArticleResponseEntity
 import nl.becu.dewi.student656552.articles.domain.models.exceptions.ArticleException
 import nl.becu.dewi.student656552.articles.domain.models.exceptions.ArticleTimeoutException
 import nl.becu.dewi.student656552.articles.domain.repository.ArticleRepository
 import nl.becu.dewi.student656552.articles.util.Resource
+import nl.becu.dewi.student656552.articles.util.UiText
 import retrofit2.Response
+import java.io.StringReader
 
 class ArticleRepositoryImpl(
     private val api: ArticleApi
@@ -16,15 +21,13 @@ class ArticleRepositoryImpl(
 
     private val mapper = ArticleMapper()
 
-    // TODO: CHANGE THIS LOGIC IS IN THE WRONG LAYER
     override suspend fun getArticleById(id: Int, authToken: String?): Resource<Article> {
         val response: Response<ArticleResponseEntity>
 
         try {
             response = api.getArticleById(id, authToken)
-            throw Exception()
         } catch(e: Exception) {
-            return Resource.Error("A timeout error occured, please try again later")
+            return Resource.Error(UiText.StringResource(R.string.error_time_out))
         }
 
         val article = response.body()?.let { mapper.mapFirstArticle(it).getOrNull() }
@@ -37,7 +40,7 @@ class ArticleRepositoryImpl(
         try{
             response = api.getArticles(startingIndex, pageSize)
         } catch(e: Exception) {
-        throw ArticleTimeoutException(e.message ?: "")
+            throw Exception()
         }
 
         val responseBody = response.body()
@@ -45,12 +48,12 @@ class ArticleRepositoryImpl(
         when {
             response.isSuccessful -> {
                 if (responseBody?.NextId == null) {
-                    throw Exception() //TODO
+                    throw Exception()
                 } else {
                     return Result.success(responseBody.NextId).getOrThrow()
                 }
             } else -> {
-                throw Exception() //TODO
+            throw Exception()
             }
         }
     }
@@ -106,6 +109,31 @@ class ArticleRepositoryImpl(
         } catch(e: Exception) {
             throw ArticleTimeoutException(e.message ?: "")
         }
+    }
+
+    override suspend fun getArticleResponse(
+        startingIndex: Int,
+        pageSize: Int,
+        authToken: String?
+    ): Result<ArticleResponse> {
+        val response: Response<ArticleResponseEntity>
+
+        try {
+            response = if (authToken != null)
+                api.getArticles(startingIndex, pageSize, authToken)
+            else
+                api.getArticles(startingIndex, pageSize)
+        } catch(e: Exception) {
+            throw ArticleTimeoutException(e.message ?: "")
+        }
+
+        val body = response.body()
+        if (body == null)
+            throw Exception()
+
+        return mapper.mapArticleResponse(body)
+
+
     }
 
 }

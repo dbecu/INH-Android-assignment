@@ -11,4 +11,4 @@ data class DetailState(
     val authToken: String?,
     val isFavedIcon: Boolean,
     val error: String? = null
-    )
+)

@@ -83,7 +83,8 @@ class AppModule {
             getNextId = GetNextId(repository),
             getArticles = GetArticles(repository),
             putLikeArticle = PutLikeArticle(repository),
-            deleteLikeArticle = DeleteLikeArticle(repository)
+            deleteLikeArticle = DeleteLikeArticle(repository),
+            getArticleResponse = GetArticleResponse(repository)
         )
     }
 
