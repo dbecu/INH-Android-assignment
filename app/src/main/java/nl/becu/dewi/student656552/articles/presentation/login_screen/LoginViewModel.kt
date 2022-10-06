@@ -1,5 +1,6 @@
 package nl.becu.dewi.student656552.articles.presentation.login_screen
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import javax.inject.Inject
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent.Login
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent.EnteredUsername
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
+import nl.becu.dewi.student656552.articles.util.Resource
 
 @HiltViewModel
 class LoginViewModel@Inject constructor(
@@ -45,6 +47,9 @@ class LoginViewModel@Inject constructor(
     )
     val error: State<LoginTextFieldState> = _error
 
+    private val _errorOccured = mutableStateOf(Boolean)
+    val errorOccured: MutableState<Boolean.Companion> = _errorOccured
+
     fun onEvent(event: LoginEvent) {
         when (event) {
             is EnteredUsername -> {
@@ -59,16 +64,29 @@ class LoginViewModel@Inject constructor(
             }
             is Login -> {
                 viewModelScope.launch {
-                    _authToken.value = authToken.value.copy(
-                        text = userUseCases.login(userName.value.text, password.value.text)
-                    )
+                    val result = userUseCases.login(userName.value.text, password.value.text)
+                    when (result) {
+                        is Resource.Success -> {
+                            _authToken.value = authToken.value.copy(
+                                text = userUseCases.login(userName.value.text, password.value.text)?.data ?: ""
+                            )
+                            _error.value = error.value.copy(
+                                uiText = null
+                            )
 
-                    SharedPreferencesManager.setUsername(userName.value.text)
-                    SharedPreferencesManager.setPassword(password.value.text)
-                    SharedPreferencesManager.setAuthToken(authToken.value.text)
+                            SharedPreferencesManager.setUsername(userName.value.text)
+                            SharedPreferencesManager.setPassword(password.value.text)
+                            SharedPreferencesManager.setAuthToken(authToken.value.text)
+
+                        }
+                        is Resource.Error -> {
+                            _error.value = error.value.copy(
+                                uiText = result.message
+                            )
+                        }
+                    }
                 }
             }
-
         }
     }
 }

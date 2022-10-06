@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import nl.becu.dewi.student656552.articles.domain.use_case.user_use_case.UserUseCase
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginTextFieldState
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
+import nl.becu.dewi.student656552.articles.util.Resource
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,9 +47,22 @@ class RegisterViewModel @Inject constructor(
             }
             is RegisterEvent.Register -> {
                 viewModelScope.launch {
-                    _message.value = message.value.copy(
-                        text = userUseCase.register(userName.value.text, password.value.text).Message)
-                    SharedPreferencesManager.setUsername(userName.value.text)
+                    val result = userUseCase.register(userName.value.text, password.value.text)
+                    when (result) {
+                        is Resource.Success -> {
+                            _message.value = message.value.copy(
+                                text = result.data?.Message ?: "")
+                            _error.value = error.value.copy(
+                                uiText = null
+                            )
+                            SharedPreferencesManager.setUsername(userName.value.text)
+                        }
+                        is Resource.Error -> {
+                            _error.value = error.value.copy(
+                                uiText = result.message
+                            )
+                        }
+                    }
                 }
             }
         }

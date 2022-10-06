@@ -1,14 +1,18 @@
 package nl.becu.dewi.student656552.articles.presentation.register_screen
 
 import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -49,6 +53,7 @@ fun RegisterScreen(
                 visualTransformation = PasswordVisualTransformation()
             )
 
+            val ctx = LocalContext.current
             //BUtton Register
             Button(onClick = {
                 viewModel.onEvent(
@@ -57,7 +62,15 @@ fun RegisterScreen(
                         viewModel.password.value.text
                     )
                 )
-                navController.navigate(Screen.LoginScreen.route)
+
+
+                if (viewModel.error.value.text.isNullOrBlank()) {
+                    navController.navigate(Screen.LoginScreen.route)
+                    Toast.makeText(ctx, "Successfully registered", Toast.LENGTH_SHORT).show()
+                } else {
+                    navController.navigate(Screen.RegisterScreen.route)
+                    Toast.makeText(ctx, "Error: not registered", Toast.LENGTH_SHORT).show()
+                }
 
             }) {
                 Text(text = stringResource(R.string.register))
@@ -68,7 +81,9 @@ fun RegisterScreen(
                 text = AnnotatedString(stringResource(R.string.login)),
                 onClick = {
                     navController.navigate(Screen.LoginScreen.route)
-                })
+                },
+                style = TextStyle(
+                    color = MaterialTheme.colors.onBackground))
         }
     }
 }

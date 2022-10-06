@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -27,15 +28,13 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ){
     DefaultScreen(navController = navController, haveBackButton = false) {
-        LoginScreenContent(viewModel, navController)
-        /*
-        if (articlePaging.itemCount != 0 && viewModel.state.value.error == null) {
+        if (viewModel.error.value.uiText == null) {
             LoginScreenContent(viewModel, navController)
         } else {
-            Text(text = viewModel.error.value.text: "")
+            Text(text = viewModel.error.value.uiText?.asString() ?: "")
         }
 
-         */
+
     }
 }
 
@@ -65,14 +64,25 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
         )
 
         val ctx = LocalContext.current
+        val errorMade = viewModel.error.value.uiText != null
         //BUtton login
         Button(onClick = {
             viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
-            Toast.makeText(ctx, "Successfully Logged In", Toast.LENGTH_SHORT).show()
-            navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text)) //if all goes good
+
+            if (!errorMade) {
+                Toast.makeText(ctx, "Successfully Logged In", Toast.LENGTH_SHORT).show()
+                navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text))
+            } else {
+                navController.navigate(Screen.LoginScreen.route)
+                Toast.makeText(ctx, "Error: wrong credentials", Toast.LENGTH_SHORT).show()
+            }
             //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {
             Text(text = stringResource(R.string.login))
+        }
+
+        if (errorMade) {
+            Text(viewModel.error.value.uiText?.asString() ?: "")
         }
 
         //Register redirect
@@ -80,7 +90,11 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
             text = AnnotatedString(stringResource(R.string.register)),
             onClick = {
                 navController.navigate(Screen.RegisterScreen.route)
-            })
+            },
+            style = TextStyle(
+                color = MaterialTheme.colors.onBackground
+            )
+        )
     }
 
 }
