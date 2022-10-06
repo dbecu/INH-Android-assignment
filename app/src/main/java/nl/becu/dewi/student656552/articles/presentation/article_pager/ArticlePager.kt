@@ -8,8 +8,10 @@ import nl.becu.dewi.student656552.articles.presentation.fav_screen.FavViewModel
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 
-class ArticlePager constructor(val articleUseCases: ArticleUseCases, val isFav: Boolean = false)
-    : PagingSource<Int, Article>() {
+class ArticlePager constructor(
+    val articleUseCases: ArticleUseCases,
+    val isFav: Boolean = false)
+: PagingSource<Int, Article>() {
 
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         return null
@@ -19,11 +21,15 @@ class ArticlePager constructor(val articleUseCases: ArticleUseCases, val isFav: 
         val key = params.key ?: 134067
         val loadSize = params.loadSize
 
-        val articleResponse = articleUseCases.getArticleResponse(
-            key,
-            loadSize,
-            SharedPreferencesManager.getAuthToken()
-        )
+        val articleResponse = if (isFav) {
+            articleUseCases.getLikedArticleResponse(
+                SharedPreferencesManager.getAuthToken())
+        } else {
+            articleUseCases.getArticleResponse(
+                key,
+                loadSize,
+                SharedPreferencesManager.getAuthToken())
+        }
 
         //get data
         val nextKey = articleResponse.data?.first

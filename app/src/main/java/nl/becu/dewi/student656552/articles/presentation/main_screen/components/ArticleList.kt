@@ -31,7 +31,6 @@ fun ArticleList(
     viewModel: MainViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     val articlePaging = viewModel.articles.collectAsLazyPagingItems()
 
     LazyColumn(modifier = Modifier.fillMaxSize(),

@@ -23,18 +23,7 @@ class FavViewModel @Inject constructor(
     val state: State<FavState> = _state
 
     val articles = Pager(PagingConfig(pageSize = 20)) {
-        ArticlePager(articleUseCases)
+        ArticlePager(articleUseCases, true)
     }.flow.cachedIn(viewModelScope)
 
-    fun setStartKey(startKey: Int) {
-        _state.value = state.value.copy(
-            startIndex = startKey
-        )
-    }
-
-    fun setLoad(load: Int) {
-        _state.value = state.value.copy(
-            load = load
-        )
-    }
 }

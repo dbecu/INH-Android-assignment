@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     val state: State<MainState> = _state
 
     val articles = Pager(PagingConfig(pageSize = 20)) {
-        ArticlePager(articleUseCases)
+        ArticlePager(articleUseCases, false)
     }.flow.cachedIn(viewModelScope)
 
 }

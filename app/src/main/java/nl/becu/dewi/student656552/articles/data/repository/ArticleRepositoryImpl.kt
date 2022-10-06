@@ -34,30 +34,6 @@ class ArticleRepositoryImpl(
         return Resource.Success(article)
     }
 
-    override suspend fun getNextId(startingIndex: Int, pageSize: Int): Int {
-        val response: Response<ArticleResponseEntity>
-
-        try{
-            response = api.getArticles(startingIndex, pageSize)
-        } catch(e: Exception) {
-            throw Exception()
-        }
-
-        val responseBody = response.body()
-
-        when {
-            response.isSuccessful -> {
-                if (responseBody?.NextId == null) {
-                    throw Exception()
-                } else {
-                    return Result.success(responseBody.NextId).getOrThrow()
-                }
-            } else -> {
-            throw Exception()
-            }
-        }
-    }
-
     override suspend fun getArticles(
         startingIndex: Int,
         pageSize: Int,
@@ -127,13 +103,26 @@ class ArticleRepositoryImpl(
             throw ArticleTimeoutException(e.message ?: "")
         }
 
-        val body = response.body()
-        if (body == null)
-            throw Exception()
+        val body = response.body() ?: throw Exception()
 
         return mapper.mapArticleResponse(body)
+    }
+
+    override suspend fun getLikedArticleResponse(
+        authToken: String
+    ): Resource<Result<ArticleResponse>> {
+        val response: Response<ArticleResponseEntity>
+
+        try {
+            response = api.getLikedArticles(authToken)
+        } catch(e: Exception) {
+            return Resource.Error(UiText.StringResource(R.string.error_time_out))
+        }
+
+        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error))
 
 
+        return Resource.Success(mapper.mapArticleResponse(body))
     }
 
 }

@@ -80,11 +80,11 @@ class AppModule {
     fun provideArticleUseCases(repository: ArticleRepository): ArticleUseCases {
         return ArticleUseCases(
             getArticle = GetArticle(repository),
-            getNextId = GetNextId(repository),
             getArticles = GetArticles(repository),
             putLikeArticle = PutLikeArticle(repository),
             deleteLikeArticle = DeleteLikeArticle(repository),
-            getArticleResponse = GetArticleResponse(repository)
+            getArticleResponse = GetArticleResponse(repository),
+            getLikedArticleResponse = GetLikedArticleResponse(repository)
         )
     }
 

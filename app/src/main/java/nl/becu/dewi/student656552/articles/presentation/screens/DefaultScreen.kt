@@ -99,7 +99,7 @@ fun BottomBar(navController: NavController, isLoggedIn: Boolean = false) {
                 onClick = {
                     selectedIndex.value = 2
                     navController.navigate(route = Screen.FavScreen.route)
-                })
+            })
         }
     }
 }
