@@ -28,6 +28,7 @@ import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.domain.models.Category
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import java.security.AccessController.getContext
 import java.time.LocalDate
 import java.util.*
@@ -55,12 +56,15 @@ fun ArticleTab(
 
         ) {
 
-            Icon(
-                imageVector = if (article.IsLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = stringResource(R.string.favorite_icon),
-                modifier = Modifier
-                    .padding(4.dp)
-            )
+            if (!SharedPreferencesManager.getAuthToken().isNullOrBlank()) {
+                Icon(
+                    imageVector = if (article.IsLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = stringResource(R.string.favorite_icon),
+                    modifier = Modifier
+                        .padding(4.dp)
+                )
+            }
+
             AsyncImage(
                 model = article.Image,
                 contentDescription = stringResource(R.string.article_image_content_description),

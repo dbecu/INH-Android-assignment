@@ -30,60 +30,28 @@ class ArticleRepositoryImpl(
             return Resource.Error(UiText.StringResource(R.string.error_time_out))
         }
 
-        val article = response.body()?.let { mapper.mapFirstArticle(it).getOrNull() }
+        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error))
+        val article = mapper.mapFirstArticle(body).getOrNull() ?: return Resource.Error(UiText.StringResource(R.string.error))
+
         return Resource.Success(article)
     }
 
-    override suspend fun getArticles(
-        startingIndex: Int,
-        pageSize: Int,
-        authToken: String?
-    ): Result<List<Article>> {
-
-        val response: Response<ArticleResponseEntity>
-
-        try {
-            response = if (authToken != null)
-                api.getArticles(startingIndex, pageSize, authToken)
-            else
-                api.getArticles(startingIndex, pageSize)
-        } catch(e: Exception) {
-            throw ArticleTimeoutException(e.message ?: "")
-        }
-
-        val articles = mapper.mapResponseEntityToArticles(response.body())
-        articles.sortedByDescending { it.PublishDate }
-
-        when {
-            response.isSuccessful -> {
-                if (articles.isEmpty()) {
-                    throw Exception() //TODO
-                } else {
-                    return Result.success(articles)
-                }
-            }
-            else -> {
-                throw ArticleException("Auth token expired") //TODO
-            }
-
-        }
-    }
-
-
-    override suspend fun putLikeArticle(articleId: Int, authToken: String) {
-        try {
+    override suspend fun putLikeArticle(articleId: Int, authToken: String) : Resource<Unit> {
+        return try {
             api.putLikeArticle(articleId, authToken)
-        } catch(e: Exception) {
-        throw ArticleTimeoutException(e.message ?: "")
+            Resource.Success(null)
+        } catch (e: Exception) {
+            Resource.Error(UiText.StringResource(R.string.error_time_out))
+        }
     }
 
-    }
 
-    override suspend fun deleteLikeArticle(articleId: Int, authToken: String) {
-        try {
-            api.deleteLikeArticle(articleId, authToken) //TODO error handling
+    override suspend fun deleteLikeArticle(articleId: Int, authToken: String) : Resource<Unit> {
+        return try {
+            api.deleteLikeArticle(articleId, authToken)
+            Resource.Success(null)
         } catch(e: Exception) {
-            throw ArticleTimeoutException(e.message ?: "")
+            Resource.Error(UiText.StringResource(R.string.error_time_out))
         }
     }
 
@@ -91,7 +59,7 @@ class ArticleRepositoryImpl(
         startingIndex: Int,
         pageSize: Int,
         authToken: String?
-    ): Result<ArticleResponse> {
+    ): Resource<Result<ArticleResponse>> {
         val response: Response<ArticleResponseEntity>
 
         try {
@@ -100,12 +68,11 @@ class ArticleRepositoryImpl(
             else
                 api.getArticles(startingIndex, pageSize)
         } catch(e: Exception) {
-            throw ArticleTimeoutException(e.message ?: "")
+            return Resource.Error(UiText.StringResource(R.string.error_time_out))
         }
 
-        val body = response.body() ?: throw Exception()
-
-        return mapper.mapArticleResponse(body)
+        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error))
+        return Resource.Success(mapper.mapArticleResponse(body))
     }
 
     override suspend fun getLikedArticleResponse(
@@ -120,8 +87,6 @@ class ArticleRepositoryImpl(
         }
 
         val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error))
-
-
         return Resource.Success(mapper.mapArticleResponse(body))
     }
 

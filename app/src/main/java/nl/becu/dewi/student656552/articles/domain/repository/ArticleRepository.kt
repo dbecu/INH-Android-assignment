@@ -7,13 +7,11 @@ import nl.becu.dewi.student656552.articles.util.Resource
 interface ArticleRepository {
     suspend fun getArticleById(id: Int, authToken: String?): Resource<Article>
 
-    suspend fun getArticles(startingIndex: Int, pageSize: Int, authToken: String?): Result<List<Article>>
+    suspend fun putLikeArticle(articleId: Int, authToken: String): Resource<Unit>
 
-    suspend fun putLikeArticle(articleId: Int, authToken: String): Unit
+    suspend fun deleteLikeArticle(articleId: Int, authToken: String): Resource<Unit>
 
-    suspend fun deleteLikeArticle(articleId: Int, authToken: String): Unit
-
-    suspend fun getArticleResponse(startingIndex: Int, pageSize: Int, authToken: String?): Result<ArticleResponse>
+    suspend fun getArticleResponse(startingIndex: Int, pageSize: Int, authToken: String?): Resource<Result<ArticleResponse>>
 
     suspend fun getLikedArticleResponse(authToken: String): Resource<Result<ArticleResponse>>
 

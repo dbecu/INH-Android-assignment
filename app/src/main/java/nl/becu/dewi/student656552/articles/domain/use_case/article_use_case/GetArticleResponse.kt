@@ -17,18 +17,13 @@ class GetArticleResponse(
         authToken: String?
     ): Resource<Pair<Int, Result<List<Article>>>> {
 
-        val articleResponse = repository.getArticleResponse(startingIndex, pageSize, authToken)
+        val articleResponse = repository.getArticleResponse(startingIndex, pageSize, authToken).data
 
-        val nextId = articleResponse.getOrElse {
+        if (articleResponse?.isFailure ?: true)
             return Resource.Error(UiText.StringResource(R.string.error))
-        }.NextId
 
-        val articles = articleResponse.getOrElse {
-            return Resource.Error(UiText.StringResource(R.string.error))
-        }.Results
-
-        if (articleResponse.isFailure)
-            return Resource.Error(UiText.StringResource(R.string.error))
+        val nextId = articleResponse?.getOrNull()?.NextId ?: return Resource.Error(UiText.StringResource(R.string.error))
+        val articles = articleResponse?.getOrNull()?.Results ?: return Resource.Error(UiText.StringResource(R.string.error))
 
         return Resource.Success(Pair(nextId, Result.success(articles)))
     }

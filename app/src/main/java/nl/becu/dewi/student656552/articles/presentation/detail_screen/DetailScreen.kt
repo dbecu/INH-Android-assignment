@@ -54,16 +54,18 @@ fun DetailScreen(
 
     if (state.article != null && state.error == null) {
         DefaultScreen(navController = navController, navigationTitle = "", floatButton = {
-            FloatingButton(
-                isLiked = state.article.IsLiked,
-                viewModel = viewModel
-            )
+           if (!SharedPreferencesManager.getAuthToken().isNullOrBlank()) {
+               FloatingButton(
+                   isLiked = state.article.IsLiked,
+                   viewModel = viewModel
+               )
+           }
         }) {
             DetailScreenContent(state.article)
         }
     } else {
         DefaultScreen(navController = navController, navigationTitle = "", floatButton = {
-            state.error?.let { Text(text = it) }
+            Text(text = viewModel.state.value.error?.asString() ?: "")
         }) { }
     }
 }

@@ -37,7 +37,7 @@ fun ArticleList(
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         if (articlePaging.loadState.prepend is LoadState.Loading || articlePaging.loadState.refresh is LoadState.Loading){
-            item() {
+            item {
                 LinearProgressIndicator()
             }
         }

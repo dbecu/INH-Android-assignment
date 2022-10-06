@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,31 +30,38 @@ fun FavScreen(
     val articlePaging = viewModel.articles.collectAsLazyPagingItems()
 
     DefaultScreen(navController = navController, navigationTitle = stringResource(R.string.favorites), haveBackButton = false) {
-        LazyColumn {
-            val loading = articlePaging.loadState.prepend is LoadState.Loading
-                    || articlePaging.loadState.append is LoadState.Loading
-                    || articlePaging.loadState.refresh is LoadState.Loading
+        if (articlePaging.itemCount != 0 && viewModel.state.value.error == null) {
 
-            item {
-                Button(onClick = {
-                    articlePaging.refresh()
-                }) {
-                    Text(stringResource(R.string.refresh))
+            LazyColumn {
+                if (articlePaging.loadState.prepend is LoadState.Loading || articlePaging.loadState.refresh is LoadState.Loading) {
+                    item {
+                        LinearProgressIndicator()
+                    }
+                }
+
+                item {
+                    Button(onClick = {
+                        articlePaging.refresh()
+                    }) {
+                        Text(stringResource(R.string.refresh))
+                    }
+                }
+
+
+                items(articlePaging) {
+                    if (it != null) {
+                        ArticleTab(article = it, navController = navController)
+                    }
+                }
+
+                item {
+                    if (articlePaging.loadState.append is LoadState.Loading) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
-
-
-            items(articlePaging) {
-                if (it != null) {
-                    ArticleTab(article = it, navController = navController)
-                }
-            }
-
-            item {
-                if (loading) {
-                    CircularProgressIndicator()
-                }
-            }
+        } else {
+            Text(text = viewModel.state.value.error?.asString() ?: "")
         }
     }
 }

@@ -38,6 +38,13 @@ class LoginViewModel@Inject constructor(
     )
     val authToken: State<LoginTextFieldState> = _authToken
 
+    private val _error = mutableStateOf(
+        LoginTextFieldState(
+            text = ""
+        )
+    )
+    val error: State<LoginTextFieldState> = _error
+
     fun onEvent(event: LoginEvent) {
         when (event) {
             is EnteredUsername -> {

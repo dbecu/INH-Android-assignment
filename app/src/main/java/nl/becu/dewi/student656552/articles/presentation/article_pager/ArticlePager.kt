@@ -1,17 +1,25 @@
 package nl.becu.dewi.student656552.articles.presentation.article_pager
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.domain.use_case.article_use_case.ArticleUseCases
+import nl.becu.dewi.student656552.articles.presentation.detail_screen.DetailState
 import nl.becu.dewi.student656552.articles.presentation.fav_screen.FavViewModel
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
+import nl.becu.dewi.student656552.articles.util.Resource
+import nl.becu.dewi.student656552.articles.util.UiText
 
 class ArticlePager constructor(
     val articleUseCases: ArticleUseCases,
     val isFav: Boolean = false)
 : PagingSource<Int, Article>() {
+
+    private val _error = mutableStateOf(ArticlePagerState())
+    val error: State<ArticlePagerState> = _error
 
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         return null
@@ -23,27 +31,42 @@ class ArticlePager constructor(
 
         val articleResponse = if (isFav) {
             articleUseCases.getLikedArticleResponse(
-                SharedPreferencesManager.getAuthToken())
+                SharedPreferencesManager.getAuthToken()
+            )
         } else {
             articleUseCases.getArticleResponse(
                 key,
                 loadSize,
-                SharedPreferencesManager.getAuthToken())
+                SharedPreferencesManager.getAuthToken()
+            )
         }
 
-        //get data
-        val nextKey = articleResponse.data?.first
-        val articles = articleResponse.data?.second ?: throw Exception()
+        when (articleResponse) {
+            is Resource.Success -> {
+                val nextKey = articleResponse.data?.first
+                val articles = articleResponse.data?.second!!
 
+                val result = articles.getOrElse {
+                    return LoadResult.Error(it)
+                }
 
-        val result = articles.getOrElse {
-                return LoadResult.Error(it) }
+                return LoadResult.Page(
+                    result,
+                    null,
+                    if (nextKey == 0) {
+                        null
+                    } else {
+                        nextKey
+                    }
+                )
+            }
+            is Resource.Error -> {
+                _error.value = error.value.copy(
+                    error = articleResponse.message
+                )
 
-        return LoadResult.Page(result, null,
-            if (nextKey == 0) {
-                null
-            } else {
-                nextKey })
+                return LoadResult.Page(emptyList(), null, null)}
+        }
     }
 
     override val keyReuseSupported: Boolean = true

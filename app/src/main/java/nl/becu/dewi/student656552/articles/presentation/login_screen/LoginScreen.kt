@@ -1,11 +1,13 @@
 package nl.becu.dewi.student656552.articles.presentation.login_screen
 
 import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -26,6 +28,14 @@ fun LoginScreen(
 ){
     DefaultScreen(navController = navController, haveBackButton = false) {
         LoginScreenContent(viewModel, navController)
+        /*
+        if (articlePaging.itemCount != 0 && viewModel.state.value.error == null) {
+            LoginScreenContent(viewModel, navController)
+        } else {
+            Text(text = viewModel.error.value.text: "")
+        }
+
+         */
     }
 }
 
@@ -54,9 +64,11 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
             visualTransformation = PasswordVisualTransformation()
         )
 
+        val ctx = LocalContext.current
         //BUtton login
         Button(onClick = {
             viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
+            Toast.makeText(ctx, "Successfully Logged In", Toast.LENGTH_SHORT).show()
             navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text)) //if all goes good
             //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import nl.becu.dewi.student656552.articles.domain.use_case.user_use_case.UserUseCase
+import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginTextFieldState
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import javax.inject.Inject
 
@@ -28,6 +29,10 @@ class RegisterViewModel @Inject constructor(
         RegisterState(
         text = "" ))
     val message: State<RegisterState> = _message
+
+    private val _error = mutableStateOf(RegisterState(text = "" ))
+    val error: State<RegisterState> = _error
+
 
     fun onEvent(event: RegisterEvent) {
         when(event) {
