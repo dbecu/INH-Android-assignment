@@ -20,7 +20,13 @@ class ArticlePager constructor(val favViewModel: FavViewModel)
                 return LoadResult.Error(it)
             }
 
-        return LoadResult.Page(result, null, favViewModel.articleUseCases.getNextId(favViewModel.state.value.startIndex, favViewModel.state.value.load)) //TODO: next page //call api to get to the nexr key
+        val nextKey = favViewModel.articleUseCases.getNextId(favViewModel.state.value.startIndex, favViewModel.state.value.load)
+
+        return LoadResult.Page(result, null, if (nextKey == 0) {
+            null
+        } else {
+            nextKey
+        })
     }
 
     override val keyReuseSupported: Boolean = true

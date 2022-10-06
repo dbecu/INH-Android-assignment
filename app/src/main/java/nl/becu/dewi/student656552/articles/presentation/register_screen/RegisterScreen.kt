@@ -7,10 +7,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.domain.models.RegisterModel
 import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginEvent
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
@@ -32,7 +34,7 @@ fun RegisterScreen(
                     userNameText = it
                     viewModel.onEvent(RegisterEvent.EnteredUsername(userNameText))
                 },
-                label = { Text("User name") }
+                label = { Text(stringResource(R.string.user_name)) }
             )
 
             //Passowrd
@@ -43,7 +45,7 @@ fun RegisterScreen(
                     passwordText = it
                     viewModel.onEvent(RegisterEvent.EnteredPassword(passwordText))
                 },
-                label = { Text("Password") },
+                label = { Text(stringResource(R.string.password)) },
                 visualTransformation = PasswordVisualTransformation()
             )
 
@@ -58,12 +60,12 @@ fun RegisterScreen(
                 navController.navigate(Screen.LoginScreen.route)
 
             }) {
-                Text(text = "Register")
+                Text(text = stringResource(R.string.register))
             }
 
             //Register login
             ClickableText(
-                text = AnnotatedString("Login"),
+                text = AnnotatedString(stringResource(R.string.login)),
                 onClick = {
                     navController.navigate(Screen.LoginScreen.route)
                 })

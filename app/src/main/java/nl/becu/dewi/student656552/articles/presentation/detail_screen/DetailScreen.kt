@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -87,7 +88,7 @@ private fun FloatingButton(isLiked: Boolean, viewModel: DetailViewModel){
         }
     ){
         Icon(
-            if (iconFaved) Icons.Default.Favorite else Icons.Default.FavoriteBorder, ""
+            if (iconFaved) Icons.Default.Favorite else Icons.Default.FavoriteBorder, stringResource(R.string.favorite_icon)
         )
 
     }
@@ -100,13 +101,16 @@ private fun DetailScreenContent(
     val uriHandler = LocalUriHandler.current
     val dateFormat = SimpleDateFormat("yyyy-mm-dd")
 
-    Column(Modifier.verticalScroll(rememberScrollState()).fillMaxWidth()) {
+    Column(
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxWidth()) {
         article?.let {
 
             Row() {
                 AsyncImage(
                     model = it.Image,
-                    contentDescription = "Image of news item",
+                    contentDescription = stringResource(R.string.article_image_content_description),
                     modifier = Modifier
                         .size(120.dp)
                         .padding(4.dp),
@@ -131,7 +135,7 @@ private fun DetailScreenContent(
             Text(dateFormat.format(it.PublishDate))
 
             Spacer(modifier = Modifier.padding(16.dp))
-            Text("Related content")
+            Text(stringResource(R.string.related_content))
             for(article in it.Related){
                 Text(modifier = Modifier.clickable {
                     uriHandler.openUri(article)
@@ -140,7 +144,7 @@ private fun DetailScreenContent(
             }
 
             Spacer(modifier = Modifier.padding(16.dp))
-            Text("Categories")
+            Text(stringResource(R.string.categories))
             for(category in it.Categories){
                 Text(category.Name)
             }

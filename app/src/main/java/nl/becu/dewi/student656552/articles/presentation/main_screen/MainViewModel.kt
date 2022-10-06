@@ -24,7 +24,7 @@ class MainViewModel @Inject constructor(
     private val _state = mutableStateOf(MainState())
     val state: State<MainState> = _state
 
-    val articles = Pager(PagingConfig(pageSize = 10)) {
+    val articles = Pager(PagingConfig(pageSize = 20)) {
         MainPager(mainViewModel = this)
     }.flow.cachedIn(viewModelScope)
 

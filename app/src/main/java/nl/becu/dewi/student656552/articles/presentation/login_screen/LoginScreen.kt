@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -13,6 +14,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
@@ -38,7 +40,7 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
             onValueChange = {
                 userNameText = it
                 viewModel.onEvent(LoginEvent.EnteredUsername(userNameText)) },
-            label = { Text("User name") }
+            label = { Text(stringResource(R.string.user_name)) }
         )
 
         //Passowrd
@@ -48,7 +50,7 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
             onValueChange = {
                 passwordText = it
                 viewModel.onEvent(LoginEvent.EnteredPassword(passwordText)) },
-            label = { Text("Password") },
+            label = { Text(stringResource(R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
 
@@ -58,12 +60,12 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
             navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text)) //if all goes good
             //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {
-            Text(text = "Login")
+            Text(text = stringResource(R.string.login))
         }
 
         //Register redirect
         ClickableText(
-            text = AnnotatedString("Register"),
+            text = AnnotatedString(stringResource(R.string.register)),
             onClick = {
                 navController.navigate(Screen.RegisterScreen.route)
             })

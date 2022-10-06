@@ -11,15 +11,17 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
 import nl.becu.dewi.student656552.articles.presentation.util.observeAsState
 
 @Composable
 fun DefaultScreen(
-    navigationTitle: String = "Triple newspaper",
+    navigationTitle: String = stringResource(R.string.triple_newspaper),
     haveBackButton: Boolean = true,
     navController: NavController,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
@@ -52,7 +54,7 @@ fun TopBar(navigationTitle: String, haveBackButton: Boolean, navController: NavC
         navigationIcon = {
             if (haveBackButton) {
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(imageVector = Icons.Default.ArrowBack,"")
+                    Icon(imageVector = Icons.Default.ArrowBack,stringResource(R.string.arrow_back_icon))
                 }
             }
         }
@@ -65,9 +67,9 @@ fun BottomBar(navController: NavController, isLoggedIn: Boolean = false) {
     BottomNavigation(elevation = 10.dp) {
 
         BottomNavigationItem(icon = {
-            Icon(imageVector = Icons.Default.Home,"")
+            Icon(imageVector = Icons.Default.Home,stringResource(R.string.home))
         },
-            label = { Text(text = "Home") },
+            label = { Text(text = stringResource(R.string.home)) },
             selected = (selectedIndex.value == 0),
             onClick = {
                 selectedIndex.value = 0
@@ -75,9 +77,9 @@ fun BottomBar(navController: NavController, isLoggedIn: Boolean = false) {
             })
 
         BottomNavigationItem(icon = {
-            Icon(imageVector = Icons.Default.Person,"")
+            Icon(imageVector = Icons.Default.Person,stringResource(R.string.person_icon))
         },
-            label = { Text(text = "Profile") },
+            label = { Text(text = stringResource(R.string.profile)) },
             selected = (selectedIndex.value == 1),
             onClick = {
                 selectedIndex.value = 1
@@ -90,9 +92,9 @@ fun BottomBar(navController: NavController, isLoggedIn: Boolean = false) {
 
         if (isLoggedIn) {
             BottomNavigationItem(icon = {
-                Icon(imageVector = Icons.Default.Favorite, "")
+                Icon(imageVector = Icons.Default.Favorite, stringResource(R.string.favorite_icon))
             },
-                label = { Text(text = "Favorites") },
+                label = { Text(text = stringResource(R.string.favorites)) },
                 selected = (selectedIndex.value == 2),
                 onClick = {
                     selectedIndex.value = 2

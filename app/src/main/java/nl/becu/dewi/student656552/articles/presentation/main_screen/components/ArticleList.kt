@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,6 +21,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.presentation.components.PageState
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
@@ -40,11 +42,13 @@ fun ArticleList(
                 || articlePaging.loadState.append is LoadState.Loading
                 || articlePaging.loadState.refresh is LoadState.Loading
 
+        val r = articlePaging.loadState.refresh is LoadState.Loading
+
         item {
             Button(onClick = {
                 articlePaging.refresh()
             }) {
-                Text("Refresh")
+                Text(stringResource(R.string.refresh))
             }
         }
 

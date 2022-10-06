@@ -20,8 +20,15 @@ class MainPager constructor(val mainViewModel: MainViewModel)
                 return LoadResult.Error(it)
             }
 
-        return LoadResult.Page(result, null, mainViewModel.articleUseCases.getNextId(mainViewModel.state.value.page, mainViewModel.state.value.load)) //TODO: next page //call api to get to the nexr key
+        val nextKey = mainViewModel.articleUseCases.getNextId(mainViewModel.state.value.page, mainViewModel.state.value.load)
+        
+        return LoadResult.Page(result, null, if (nextKey == 0) {
+            null
+        } else {
+            nextKey
+        }) //TODO: next page //call api to get to the nexr key
     }
+
 
     override val keyReuseSupported: Boolean = true
 

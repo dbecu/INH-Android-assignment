@@ -9,11 +9,13 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.main_screen.components.ArticleList
 import nl.becu.dewi.student656552.articles.presentation.main_screen.components.ArticleTab
@@ -26,7 +28,7 @@ fun FavScreen(
 ) {
     val articlePaging = viewModel.articles.collectAsLazyPagingItems()
 
-    DefaultScreen(navController = navController, navigationTitle = "Favorites", haveBackButton = false) {
+    DefaultScreen(navController = navController, navigationTitle = stringResource(R.string.favorites), haveBackButton = false) {
         LazyColumn {
             val loading = articlePaging.loadState.prepend is LoadState.Loading
                     || articlePaging.loadState.append is LoadState.Loading
@@ -36,7 +38,7 @@ fun FavScreen(
                 Button(onClick = {
                     articlePaging.refresh()
                 }) {
-                    Text("Refresh")
+                    Text(stringResource(R.string.refresh))
                 }
             }
 

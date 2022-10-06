@@ -22,7 +22,7 @@ class FavViewModel @Inject constructor(
     private val _state = mutableStateOf(FavState())
     val state: State<FavState> = _state
 
-    val articles = Pager(PagingConfig(pageSize = 10)) {
+    val articles = Pager(PagingConfig(pageSize = 20)) {
         ArticlePager(favViewModel = this)
     }.flow.cachedIn(viewModelScope)
 
