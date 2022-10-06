@@ -30,7 +30,7 @@ class AppModule {
 
     private var httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
         .callTimeout(2, TimeUnit.MINUTES)
-        .connectTimeout(20, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
 

@@ -7,7 +7,8 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import nl.becu.dewi.student656552.articles.domain.models.Article
 
 data class DetailState(
-    val article: Article? = null, //TODO should never be null
+    val article: Article? = null,
     val authToken: String?,
-    val isFavedIcon: Boolean
+    val isFavedIcon: Boolean,
+    val error: String? = null
     )

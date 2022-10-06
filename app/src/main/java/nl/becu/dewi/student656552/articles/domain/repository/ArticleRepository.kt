@@ -1,9 +1,10 @@
 package nl.becu.dewi.student656552.articles.domain.repository
 
 import nl.becu.dewi.student656552.articles.domain.models.Article
+import nl.becu.dewi.student656552.articles.util.Resource
 
 interface ArticleRepository {
-    suspend fun getArticleById(id: Int, authToken: String?): Article
+    suspend fun getArticleById(id: Int, authToken: String?): Resource<Article>
 
     suspend fun getNextId(startingIndex: Int, pageSize: Int): Int
 

@@ -35,14 +35,13 @@ fun ArticleList(
     val articlePaging = viewModel.articles.collectAsLazyPagingItems()
 
     LazyColumn(modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
 
-        val loading = articlePaging.loadState.prepend is LoadState.Loading
-                || articlePaging.loadState.append is LoadState.Loading
-                || articlePaging.loadState.refresh is LoadState.Loading
-
-        val r = articlePaging.loadState.refresh is LoadState.Loading
+        if (articlePaging.loadState.prepend is LoadState.Loading || articlePaging.loadState.refresh is LoadState.Loading){
+            item() {
+                LinearProgressIndicator()
+            }
+        }
 
         item {
             Button(onClick = {
@@ -60,7 +59,7 @@ fun ArticleList(
         }
 
         item {
-            if (loading) {
+            if (articlePaging.loadState.append is LoadState.Loading){
                 CircularProgressIndicator()
             }
         }

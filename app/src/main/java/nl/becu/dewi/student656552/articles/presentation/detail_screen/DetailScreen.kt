@@ -45,20 +45,14 @@ fun DetailScreen(
     navController: NavController,
     articleId: Int?
 ) {
-
-    if (articleId == null)
-    {
-        navController.navigate(route = Screen.MainScreen.route)
-        return
-    }
-
     LaunchedEffect(articleId) {
         viewModel.init(articleId)
         viewModel.onEvent(DetailEvent.GetAuthToken(SharedPreferencesManager.getAuthToken()))
     }
 
     val state = viewModel.state.value
-    state.article?.Title?.let {
+
+    if (state.article != null && state.error == null) {
         DefaultScreen(navController = navController, navigationTitle = "", floatButton = {
             FloatingButton(
                 isLiked = state.article.IsLiked,
@@ -67,6 +61,10 @@ fun DetailScreen(
         }) {
             DetailScreenContent(state.article)
         }
+    } else {
+        DefaultScreen(navController = navController, navigationTitle = "", floatButton = {
+            state.error?.let { Text(text = it) }
+        }) { }
     }
 }
 
