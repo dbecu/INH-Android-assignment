@@ -59,7 +59,7 @@ fun DetailScreen(
 
     val state = viewModel.state.value
     state.article?.Title?.let {
-        DefaultScreen(navController = navController, navigationTitle = it, floatButton = {
+        DefaultScreen(navController = navController, navigationTitle = "", floatButton = {
             FloatingButton(
                 isLiked = state.article.IsLiked,
                 viewModel = viewModel
