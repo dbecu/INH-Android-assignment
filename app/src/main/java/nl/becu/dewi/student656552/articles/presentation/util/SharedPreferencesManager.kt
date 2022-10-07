@@ -8,43 +8,53 @@ import androidx.compose.runtime.mutableStateOf
 object SharedPreferencesManager {
     private lateinit var sharedPref: SharedPreferences
     val authTokenState: MutableState<String> = mutableStateOf("") //TODO make this private and have a public authtoken
+    private lateinit var _context: Context
+
+    private val _authToken = "authToken"
+    private val _username = "username"
+    private val _password = "password"
 
     fun init(context: Context){
         sharedPref = context.getSharedPreferences("mypref", Context.MODE_PRIVATE)
         authTokenState.value = sharedPref.getString("authToken", "").toString()
+        _context = context
+    }
+
+    fun getContext() : Context {
+        return _context
     }
 
     fun setAuthToken(authToken: String?) {
         val editor = sharedPref.edit()
         editor.apply{
-            putString("authToken", authToken)
+            putString(_authToken, authToken)
         }.apply()
         authTokenState.value = authToken ?: ""
     }
 
     fun getAuthToken(): String? {
-        return sharedPref.getString("authToken", null)  //TODO chane to null
+        return sharedPref.getString(_authToken, null)  //TODO chane to null
     }
 
     fun setUsername(username: String) {
         val editor = sharedPref.edit()
         editor.apply{
-            putString("username", username)
+            putString(_username, username)
         }.apply()
     }
 
     fun getUsername(): String? {
-        return sharedPref.getString("username", null)  //TODO chane to null
+        return sharedPref.getString(_username, null)  //TODO chane to null
     }
 
     fun setPassword(password: String) {
         val editor = sharedPref.edit()
         editor.apply{
-            putString("password", password)
+            putString(_password, password)
         }.apply()
     }
 
     fun getPassword(): String? {
-        return sharedPref.getString("password", null)  //TODO chane to null
+        return sharedPref.getString(_password, null)  //TODO chane to null
     }
 }

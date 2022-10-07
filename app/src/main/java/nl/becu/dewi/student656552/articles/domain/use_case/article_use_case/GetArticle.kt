@@ -11,41 +11,11 @@ class GetArticle(
 ) {
 
     suspend operator fun invoke(id: Int?, authToken: String?): Resource<Article> {
-        if (id == null)
-        {
-            return Resource.Error(UiText.StringResource(R.string.error))
+
+        if (id == null) {
+            return Resource.Error(UiText.StringResource(R.string.error_no_id_provided))
         }
 
-        val article =  repository.getArticleById(id, authToken)
-
-        if (article.data == null) {
-            return Resource.Error(UiText.StringResource(R.string.error))
-        }
-
-        return article
+        return repository.getArticleById(id, authToken)
     }
-
-
-
-
-    /*
-    fun something(){
-        val response = api.getArticleById(id)
-
-        val result =  when {
-            response.isSuccessful -> {
-                val body = response.body()
-                if (body != null){
-                    articleMapper.mapFirstArticle(body)
-                } else{
-                    Result.failure(java.lang.IllegalStateException("Body was empty"))
-                }
-            }
-            else -> Result.failure(java.lang.IllegalStateException("Something went wrong"))
-        }
-
-        return result.getOrNull()
-    }
-
-     */
 }

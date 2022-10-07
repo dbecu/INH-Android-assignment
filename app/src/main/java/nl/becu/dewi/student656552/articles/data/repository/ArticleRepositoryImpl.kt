@@ -30,7 +30,7 @@ class ArticleRepositoryImpl(
             return Resource.Error(UiText.StringResource(R.string.error_time_out))
         }
 
-        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error))
+        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error_response))
         val article = mapper.mapFirstArticle(body).getOrNull() ?: return Resource.Error(UiText.StringResource(R.string.error))
 
         return Resource.Success(article)
@@ -67,11 +67,12 @@ class ArticleRepositoryImpl(
                 api.getArticles(startingIndex, pageSize, authToken)
             else
                 api.getArticles(startingIndex, pageSize)
+
         } catch(e: Exception) {
             return Resource.Error(UiText.StringResource(R.string.error_time_out))
         }
 
-        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error))
+        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error_response))
         return Resource.Success(mapper.mapArticleResponse(body))
     }
 
@@ -82,11 +83,12 @@ class ArticleRepositoryImpl(
 
         try {
             response = api.getLikedArticles(authToken)
+
         } catch(e: Exception) {
             return Resource.Error(UiText.StringResource(R.string.error_time_out))
         }
 
-        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error))
+        val body = response.body() ?: return Resource.Error(UiText.StringResource(R.string.error_response))
         return Resource.Success(mapper.mapArticleResponse(body))
     }
 

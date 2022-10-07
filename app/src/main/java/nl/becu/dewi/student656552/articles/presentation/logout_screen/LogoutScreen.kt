@@ -1,11 +1,14 @@
 package nl.becu.dewi.student656552.articles.presentation.logout_screen
 
 import android.content.SharedPreferences
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -24,11 +27,19 @@ fun LogoutScreen(
 ){
     DefaultScreen(navController = navController, haveBackButton = false) {
         //Logout
-        Button(onClick = {
-            viewModel.onEvent(LogoutEvent.Logout)
-            navController.navigate(Screen.MainScreen.route)
-        }) {
-            Text(text = stringResource(R.string.logout))
+        Column(
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(
+                onClick = {
+                    viewModel.onEvent(LogoutEvent.Logout)
+                    navController.navigate(Screen.MainScreen.route)
+                },
+            ) {
+                Text(text = stringResource(R.string.logout))
+            }
         }
     }
 }

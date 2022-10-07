@@ -9,6 +9,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.domain.use_case.article_use_case.ArticleUseCases
 import nl.becu.dewi.student656552.articles.presentation.article_pager.ArticlePager
@@ -25,7 +26,8 @@ class MainViewModel @Inject constructor(
 
     var articles = Pager(PagingConfig(pageSize = 20)) {
         val paging = ArticlePager(articleUseCases, false)
-        _state.value = state.value.copy(error = paging.error.value.error)
+        _state.value = state.value.copy(
+            error = paging.errorMessage)
         paging
     }.flow.cachedIn(viewModelScope)
 }

@@ -4,5 +4,7 @@ import nl.becu.dewi.student656552.articles.util.UiText
 
 data class LoginTextFieldState (
     val text: String = "",
-    val uiText: UiText? = null
+    val uiText: UiText? = null,
+    val isTrue: Boolean = false,
+
 )

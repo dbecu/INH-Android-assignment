@@ -61,6 +61,7 @@ class RegisterViewModel @Inject constructor(
                             _error.value = error.value.copy(
                                 uiText = result.message
                             )
+                            SharedPreferencesManager.setUsername("")
                         }
                     }
                 }

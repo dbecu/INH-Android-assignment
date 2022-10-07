@@ -62,7 +62,11 @@ class DetailViewModel @Inject constructor(
             _state.value = state.value.copy(article = article.data)
 
             when(article) {
-                is Resource.Success -> {}
+                is Resource.Success -> {
+                    _state.value = state.value.copy(
+                        error = null
+                    )
+                }
                 is Resource.Error -> {
                     _state.value = state.value.copy(
                         error = article.message

@@ -14,10 +14,12 @@ import nl.becu.dewi.student656552.articles.presentation.login_screen.LoginScreen
 import nl.becu.dewi.student656552.articles.presentation.logout_screen.LogoutScreen
 import nl.becu.dewi.student656552.articles.presentation.main_screen.MainScreen
 import nl.becu.dewi.student656552.articles.presentation.register_screen.RegisterScreen
+import nl.becu.dewi.student656552.articles.presentation.screens.SplashScreen
 
 @Composable
 fun Navigation(navController: NavHostController){
-    NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
+
         composable(
             route = Screen.MainScreen.route
         ) {
@@ -62,5 +64,12 @@ fun Navigation(navController: NavHostController){
         ) {
             FavScreen(navController = navController)
         }
+
+        composable(
+            route = Screen.SplashScreen.route
+        ) {
+            SplashScreen(navController = navController)
+        }
+
     }
 }

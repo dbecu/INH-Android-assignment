@@ -1,29 +1,22 @@
 package nl.becu.dewi.student656552.articles.presentation.detail_screen
 
-import android.content.SharedPreferences
-import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
-import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,13 +24,9 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.domain.models.Article
-import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
-import nl.becu.dewi.student656552.articles.presentation.util.Screen
 import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun DetailScreen(
@@ -52,20 +41,22 @@ fun DetailScreen(
 
     val state = viewModel.state.value
 
-    if (state.article != null && state.error == null) {
+    if (state.error == null || state.article != null) {
         DefaultScreen(navController = navController, navigationTitle = "", floatButton = {
            if (!SharedPreferencesManager.getAuthToken().isNullOrBlank()) {
-               FloatingButton(
-                   isLiked = state.article.IsLiked,
-                   viewModel = viewModel
-               )
+               state.article?.let {
+                   FloatingButton(
+                       isLiked = it.IsLiked,
+                       viewModel = viewModel
+                   )
+               }
            }
         }) {
             DetailScreenContent(state.article)
         }
     } else {
         DefaultScreen(navController = navController, navigationTitle = "", floatButton = {
-            Text(text = viewModel.state.value.error?.asString() ?: "")
+            Text(text = viewModel.state.value.error?.asComposableString() ?: stringResource(R.string.error_login))
         }) { }
     }
 }
@@ -73,9 +64,7 @@ fun DetailScreen(
 @Composable
 private fun FloatingButton(isLiked: Boolean, viewModel: DetailViewModel){
     val state = viewModel.state
-    var iconFaved by remember {
-        mutableStateOf(isLiked)
-    }
+    var iconFaved by remember { mutableStateOf(isLiked) }
 
     FloatingActionButton(
         onClick = {
@@ -107,29 +96,29 @@ private fun DetailScreenContent(
             .fillMaxWidth()) {
         article?.let {
 
-            Row() {
-                AsyncImage(
-                    model = it.Image,
-                    contentDescription = stringResource(R.string.article_image_content_description),
-                    modifier = Modifier
-                        .size(120.dp)
-                        .padding(4.dp),
-                    placeholder = painterResource(R.drawable.default_image_thumbnail)
-                )
-                Text(
-                    text = it.Title,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold)
-            }
+            AsyncImage(
+                model = it.Image,
+                contentDescription = stringResource(R.string.article_image_content_description),
+                modifier = Modifier
+                    .size(120.dp)
+                    .padding(4.dp)
+                    .fillMaxWidth(),
+                placeholder = painterResource(R.drawable.default_image_thumbnail),
+                contentScale = ContentScale.FillBounds
+            )
+            Text(
+                text = it.Title,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold)
 
             Spacer(modifier = Modifier.padding(16.dp))
             Text(it.Summary)
 
             Spacer(modifier = Modifier.padding(16.dp))
             Text(modifier = Modifier.clickable {
-                uriHandler.openUri(it.Url) //TODO: What does it mean, must reside behind a clickable view?
+                uriHandler.openUri(it.Url)
             },
-            text = "Link to article")
+            text = stringResource(R.string.link_to_article))
 
             Spacer(modifier = Modifier.padding(16.dp))
             Text(dateFormat.format(it.PublishDate))

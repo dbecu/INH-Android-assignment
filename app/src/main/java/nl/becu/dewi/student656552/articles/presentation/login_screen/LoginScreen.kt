@@ -1,6 +1,5 @@
 package nl.becu.dewi.student656552.articles.presentation.login_screen
 
-import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
@@ -12,29 +11,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import nl.becu.dewi.student656552.R
-import nl.becu.dewi.student656552.articles.presentation.main_screen.MainViewModel
 import nl.becu.dewi.student656552.articles.presentation.screens.DefaultScreen
 import nl.becu.dewi.student656552.articles.presentation.util.Screen
+import nl.becu.dewi.student656552.articles.presentation.util.SharedPreferencesManager
+import nl.becu.dewi.student656552.articles.util.UiText
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ){
-    DefaultScreen(navController = navController, haveBackButton = false) {
-        if (viewModel.error.value.uiText == null) {
-            LoginScreenContent(viewModel, navController)
-        } else {
-            Text(text = viewModel.error.value.uiText?.asString() ?: "")
-        }
-
-
+    DefaultScreen(navController = navController, haveBackButton = false, navigationTitle = stringResource(R.string.login)) {
+        LoginScreenContent(viewModel, navController)
     }
 }
 
@@ -64,26 +56,35 @@ fun LoginScreenContent(viewModel: LoginViewModel, navController: NavController){
         )
 
         val ctx = LocalContext.current
-        val errorMade = viewModel.error.value.uiText != null
+
+        var isClicked = remember { mutableStateOf(0) }
         //BUtton login
         Button(onClick = {
             viewModel.onEvent(LoginEvent.Login(viewModel.userName.value.text, viewModel.password.value.text))
+            isClicked.value = isClicked.value + 1
 
-            if (!errorMade) {
-                Toast.makeText(ctx, "Successfully Logged In", Toast.LENGTH_SHORT).show()
-                navController.navigate(Screen.MainScreen.withOptionalAuthArgs(viewModel.authToken.value.text))
+            if (!SharedPreferencesManager.getAuthToken().isNullOrBlank()) {
+                Toast.makeText(ctx, SharedPreferencesManager.getContext().resources.getString(R.string.success_log_in), Toast.LENGTH_SHORT).show()
+                navController.navigate(Screen.MainScreen.route)
             } else {
-                navController.navigate(Screen.LoginScreen.route)
-                Toast.makeText(ctx, "Error: wrong credentials", Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx, SharedPreferencesManager.getContext().resources.getString(R.string.error_login), Toast.LENGTH_SHORT).show()
             }
             //            navController.navigate(Screen.DetailScreen.withArgs(article.Id))
         }) {
             Text(text = stringResource(R.string.login))
         }
 
-        if (errorMade) {
-            Text(viewModel.error.value.uiText?.asString() ?: "")
+        if (SharedPreferencesManager.getAuthToken().isNullOrBlank()) {
+            if (isClicked.value == 1)
+            {
+                Text(text = viewModel.error.value.uiText?.asComposableString() ?: stringResource(R.string.error_login))
+            } else if (isClicked.value > 1)
+            {
+                Text(text = stringResource(R.string.are_you_sure))
+            }
         }
+
+
 
         //Register redirect
         ClickableText(

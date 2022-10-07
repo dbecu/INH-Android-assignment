@@ -15,7 +15,7 @@ class UserRepositoryImpl(
     override suspend fun login(userName: String, password: String): Resource<String> {
         try {
             val response = api.login(AccountCredentials(userName, password)).body()?.AuthToken
-                ?: return Resource.Error(UiText.StringResource(R.string.error))
+                ?: return Resource.Error(UiText.StringResource(R.string.error_wrong_cred))
 
             return Resource.Success(response)
         } catch(e: Exception)
@@ -27,10 +27,13 @@ class UserRepositoryImpl(
     override suspend fun register(userName: String, password: String): Resource<RegisterModel> {
         try {
             val response = api.register(AccountCredentials(userName, password)).body()
-                ?: return Resource.Error(UiText.StringResource(R.string.error))
+                ?: return Resource.Error(UiText.StringResource(R.string.error_response))
 
             if (!response.Success) {
-                return Resource.Error(UiText.StringResource(R.string.error))
+                if (response.Message.contains("UserName already exists"))
+                    return Resource.Error(UiText.StringResource(R.string.error_usename_exists))
+                else
+                    return Resource.Error(UiText.StringResource(R.string.error))
             }
 
             return Resource.Success(response)

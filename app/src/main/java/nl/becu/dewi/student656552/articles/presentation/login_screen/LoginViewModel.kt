@@ -47,9 +47,6 @@ class LoginViewModel@Inject constructor(
     )
     val error: State<LoginTextFieldState> = _error
 
-    private val _errorOccured = mutableStateOf(Boolean)
-    val errorOccured: MutableState<Boolean.Companion> = _errorOccured
-
     fun onEvent(event: LoginEvent) {
         when (event) {
             is EnteredUsername -> {

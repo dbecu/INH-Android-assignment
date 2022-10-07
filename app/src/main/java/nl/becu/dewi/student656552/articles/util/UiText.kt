@@ -2,6 +2,7 @@ package nl.becu.dewi.student656552.articles.util
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 
 sealed class UiText {
@@ -12,7 +13,7 @@ sealed class UiText {
     ) : UiText()
 
     @Composable
-    fun asString(): String {
+    fun asComposableString(): String {
         return when(this) {
             is DynamicString -> value
             is StringResource -> stringResource(id, args)

@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import nl.becu.dewi.student656552.R
 import nl.becu.dewi.student656552.articles.domain.models.Article
 import nl.becu.dewi.student656552.articles.domain.use_case.article_use_case.ArticleUseCases
 import nl.becu.dewi.student656552.articles.presentation.detail_screen.DetailState
@@ -20,6 +21,8 @@ class ArticlePager constructor(
 
     private val _error = mutableStateOf(ArticlePagerState())
     val error: State<ArticlePagerState> = _error
+
+    var errorMessage: UiText? = null
 
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         return null
@@ -50,6 +53,12 @@ class ArticlePager constructor(
                     return LoadResult.Error(it)
                 }
 
+                _error.value = error.value.copy(
+                    error = null
+                )
+
+                errorMessage = null
+
                 return LoadResult.Page(
                     result,
                     null,
@@ -65,7 +74,9 @@ class ArticlePager constructor(
                     error = articleResponse.message
                 )
 
-                return LoadResult.Page(emptyList(), null, null)}
+                errorMessage = articleResponse.message
+                return LoadResult.Error(Exception())
+            }
         }
     }
 
